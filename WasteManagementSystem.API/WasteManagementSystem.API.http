@@ -1,0 +1,6 @@
+@WasteManagementSystem.API_HostAddress = http://localhost:5138
+
+GET {{WasteManagementSystem.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
