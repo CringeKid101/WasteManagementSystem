@@ -1,0 +1,24 @@
+﻿namespace WasteManagementSystem.API.Models
+{
+    public class WasteReport
+    {
+        public Guid Id { get; set; }
+        public string Description { get; set; }
+        public string ImageUrl { get; set; }
+        public WasteType WasteType { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+
+
+
+        public ReportStatus Status { get; set; }
+        public Guid UserId { get; set; }
+        public User User { get; set; }
+        public Guid? EventId { get; set; }
+        public Event Event { get; set; }       
+        public Guid? ApprovedById { get; set; }
+        public User ApprovedBy { get; set; }
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    }
+    
+}
