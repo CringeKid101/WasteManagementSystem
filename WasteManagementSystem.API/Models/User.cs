@@ -2,10 +2,12 @@
 {
     public class User
     {
-        public int UserId { get; set; }
-        public string Name { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string Role { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string? ProfileImageUrl { get; set; }
+        public int EventsAttendedCount { get; set; } = 0;
+        public int WasteReportsCount { get; set; } = 0;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; }
     }
 }
