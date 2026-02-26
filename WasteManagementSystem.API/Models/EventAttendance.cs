@@ -8,5 +8,6 @@
         public Guid UserId { get; set; }
         public User User { get; set; }
         public DateTime AttendedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? UpdatedAt { get; set; }
     }
 }

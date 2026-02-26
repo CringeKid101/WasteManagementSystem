@@ -19,6 +19,7 @@ namespace WasteManagementSystem.API.Models
         public Event Event { get; set; }       
         public Guid? ApprovedById { get; set; }
         public User ApprovedBy { get; set; }
+        public DateTime? UpdatedAt { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
     
