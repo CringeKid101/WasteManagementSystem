@@ -1,4 +1,6 @@
-﻿namespace WasteManagementSystem.API.Models
+﻿using NetTopologySuite.Geometries;
+
+namespace WasteManagementSystem.API.Models
 {
     public class WasteReport
     {
@@ -6,8 +8,7 @@
         public string Description { get; set; }
         public string ImageUrl { get; set; }
         public WasteType WasteType { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
+        public Point Location { get; set; }
 
 
 
