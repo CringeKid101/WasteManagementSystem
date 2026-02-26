@@ -1,4 +1,4 @@
-﻿namespace WasteManagementSystem.API.Models
+﻿namespace WasteManagementSystem.API.Enum
 {
     public enum ReportStatus
     {

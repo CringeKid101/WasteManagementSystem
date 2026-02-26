@@ -1,4 +1,5 @@
 ﻿using NetTopologySuite.Geometries;
+using WasteManagementSystem.API.Enum;
 
 namespace WasteManagementSystem.API.Models
 {
