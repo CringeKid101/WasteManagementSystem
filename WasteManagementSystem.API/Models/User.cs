@@ -1,13 +1,17 @@
-﻿namespace WasteManagementSystem.API.Models
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace WasteManagementSystem.API.Models
 {
-    public class User
+    public class User: IdentityUser<Guid>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string? ProfileImageUrl { get; set; }
-        public int EventsAttendedCount { get; set; } = 0;
-        public int WasteReportsCount { get; set; } = 0;
+        public int EventsAttendedCount { get; set; }
+        public int WasteReportsSubmittedCount { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
+        public ICollection<WasteReport> WasteReports { get; set; }
+        public ICollection<Event> CreatedEvents { get; set; }
+        public ICollection<EventAttendance> EventAttendances { get; set; }
     }
 }
