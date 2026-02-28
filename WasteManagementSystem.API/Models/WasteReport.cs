@@ -10,9 +10,6 @@ namespace WasteManagementSystem.API.Models
         public string ImageUrl { get; set; }
         public WasteType WasteType { get; set; }
         public Point Location { get; set; }
-
-
-
         public ReportStatus Status { get; set; }
         public Guid UserId { get; set; }
         public User User { get; set; }
