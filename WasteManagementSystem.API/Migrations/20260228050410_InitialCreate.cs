@@ -37,6 +37,7 @@ namespace WasteManagementSystem.API.Migrations
                     WasteReportsSubmittedCount = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -174,6 +175,7 @@ namespace WasteManagementSystem.API.Migrations
                     LocationName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     QrCodeValue = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     OrganizerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
@@ -189,7 +191,7 @@ namespace WasteManagementSystem.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrganizerRequest",
+                name: "OrganizerRequests",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -198,18 +200,19 @@ namespace WasteManagementSystem.API.Migrations
                     Status = table.Column<int>(type: "int", nullable: false),
                     ReviewedByAdminId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ReviewedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    ReviewedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrganizerRequest", x => x.Id);
+                    table.PrimaryKey("PK_OrganizerRequests", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OrganizerRequest_AspNetUsers_ReviewedByAdminId",
+                        name: "FK_OrganizerRequests_AspNetUsers_ReviewedByAdminId",
                         column: x => x.ReviewedByAdminId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_OrganizerRequest_AspNetUsers_UserId",
+                        name: "FK_OrganizerRequests_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id");
@@ -256,7 +259,8 @@ namespace WasteManagementSystem.API.Migrations
                     EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     ApprovedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -277,7 +281,8 @@ namespace WasteManagementSystem.API.Migrations
                         name: "FK_WasteReports_Events_EventId",
                         column: x => x.EventId,
                         principalTable: "Events",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -335,13 +340,13 @@ namespace WasteManagementSystem.API.Migrations
                 column: "OrganizerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrganizerRequest_ReviewedByAdminId",
-                table: "OrganizerRequest",
+                name: "IX_OrganizerRequests_ReviewedByAdminId",
+                table: "OrganizerRequests",
                 column: "ReviewedByAdminId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrganizerRequest_UserId",
-                table: "OrganizerRequest",
+                name: "IX_OrganizerRequests_UserId",
+                table: "OrganizerRequests",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -382,7 +387,7 @@ namespace WasteManagementSystem.API.Migrations
                 name: "EventAttendances");
 
             migrationBuilder.DropTable(
-                name: "OrganizerRequest");
+                name: "OrganizerRequests");
 
             migrationBuilder.DropTable(
                 name: "WasteReports");

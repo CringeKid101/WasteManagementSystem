@@ -10,10 +10,10 @@
         public string QrCodeValue { get; set; }
         public Guid OrganizerId { get; set; }
         public User Organizer { get; set; }
+        public bool IsDeleted { get; set; } = false;
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; }
         public ICollection<EventAttendance> Attendances { get; set; }
         public ICollection<WasteReport> WasteReports { get; set; }
     }
 }
-    

@@ -13,7 +13,7 @@ using WasteManagementSystem.API.Data;
 namespace WasteManagementSystem.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260228040610_InitialCreate")]
+    [Migration("20260228050410_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -173,6 +173,9 @@ namespace WasteManagementSystem.API.Migrations
                     b.Property<DateTime>("EventDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("LocationName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -234,6 +237,9 @@ namespace WasteManagementSystem.API.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Reason")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -256,7 +262,7 @@ namespace WasteManagementSystem.API.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("OrganizerRequest");
+                    b.ToTable("OrganizerRequests");
                 });
 
             modelBuilder.Entity("WasteManagementSystem.API.Models.User", b =>
@@ -288,6 +294,9 @@ namespace WasteManagementSystem.API.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -367,6 +376,9 @@ namespace WasteManagementSystem.API.Migrations
                     b.Property<string>("ImageUrl")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<Point>("Location")
                         .IsRequired()
@@ -503,7 +515,8 @@ namespace WasteManagementSystem.API.Migrations
 
                     b.HasOne("WasteManagementSystem.API.Models.Event", "Event")
                         .WithMany("WasteReports")
-                        .HasForeignKey("EventId");
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("WasteManagementSystem.API.Models.User", "User")
                         .WithMany("WasteReports")
