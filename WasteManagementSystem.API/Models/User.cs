@@ -2,7 +2,7 @@
 
 namespace WasteManagementSystem.API.Models
 {
-    public class User: IdentityUser<Guid>
+    public class User : IdentityUser<Guid>
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -10,8 +10,10 @@ namespace WasteManagementSystem.API.Models
         public int WasteReportsSubmittedCount { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
+        public bool IsDeleted { get; set; } = false;
         public ICollection<WasteReport> WasteReports { get; set; }
         public ICollection<Event> CreatedEvents { get; set; }
         public ICollection<EventAttendance> EventAttendances { get; set; }
+        public ICollection<OrganizerRequest> OrganizerRequests { get; set; }
     }
 }
