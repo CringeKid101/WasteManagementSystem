@@ -1,0 +1,93 @@
+<div class="min-h-screen flex items-center justify-center bg-gray-200 p-6">
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 max-w-5xl w-full bg-white rounded-xl shadow-lg overflow-hidden"
+  >
+    <!-- LEFT SIDE LOGIN -->
+    <div class="p-10">
+      <h2 class="text-2xl font-semibold mb-2">Welcome Back!</h2>
+      <p class="text-gray-500 mb-6">
+        Sign in to access your dashboard and continue optimizing your QA process.
+      </p>
+
+      <form [formGroup]="loginForm" (ngSubmit)="submit()" class="space-y-4">
+        <mat-form-field
+          appearance="outline"
+          class="w-full"
+          floatLabel="auto"
+          hideRequiredMarker="true"
+        >
+          <mat-label>Email</mat-label>
+          <input matInput formControlName="email" />
+          @if (
+            loginForm.controls['email'].touched && loginForm.controls['email'].hasError('required')
+          ) {
+            <mat-error> Email is required. </mat-error>
+          }
+
+          @if (
+            loginForm.controls['email'].touched && loginForm.controls['email'].hasError('email')
+          ) {
+            <mat-error> Email is invalid. </mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field
+          appearance="outline"
+          class="w-full"
+          floatLabel="auto"
+          hideRequiredMarker="true"
+        >
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password" />
+          @if (
+            loginForm.controls['password'].touched &&
+            loginForm.controls['password'].hasError('required')
+          ) {
+            <mat-error> Password is required </mat-error>
+          }
+        </mat-form-field>
+
+        <div class="text-right text-sm text-teal-700 cursor-pointer">Forgot Password?</div>
+
+        <button mat-raised-button color="primary" class="w-full bg-teal-800! text-white!">
+          Sign In
+        </button>
+
+        <div class="flex items-center gap-4 my-4">
+          <mat-divider class="flex-1"></mat-divider>
+          <span class="text-sm text-gray-400">OR</span>
+          <mat-divider class="flex-1"></mat-divider>
+        </div>
+
+        <div id="googleButton" class="mt-4 flex justify-center"></div>
+
+        <p class="text-sm text-center mt-4">
+          Don't have an account?
+          <span class="text-teal-700 cursor-pointer">Sign Up</span>
+        </p>
+      </form>
+    </div>
+
+    <!-- RIGHT SIDE PROMO -->
+    <div
+      class="hidden md:flex flex-col justify-center text-white p-10 bg-linear-to-br from-teal-900 to-teal-600"
+    >
+      <h2 class="text-3xl font-semibold mb-4">Make your city cleaner today!</h2>
+
+      <p class="opacity-90 mb-6">
+        “SoftQA has completely transformed our testing process. It's reliable, efficient, and
+        ensures our releases are always top-notch.”
+      </p>
+
+      <!-- <div class="flex items-center gap-3">
+        <img src="https://i.pravatar.cc/40" class="rounded-full">
+        <div>
+          <p class="font-semibold">Michael Carter</p>
+          <p class="text-sm opacity-80">Software Engineer</p>
+        </div>
+      </div> -->
+
+      <div class="mt-10 opacity-80 text-sm">Join 1k+ users</div>
+    </div>
+  </div>
+</div>

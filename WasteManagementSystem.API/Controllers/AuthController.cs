@@ -1,6 +1,7 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Google.Apis.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -123,6 +124,28 @@ namespace WasteManagementSystem.API.Controllers
             );
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        [HttpPost("google")]
+        public async Task<IActionResult> GoogleLogin([FromBody] GoogleLoginDto dto)
+        {
+            var payload = await GoogleJsonWebSignature.ValidateAsync(dto.Token);
+
+            var email = payload.Email;
+
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+            {
+                user = new User { Email = email, UserName = email };
+
+                await _userManager.CreateAsync(user);
+            }
+            var roles = await _userManager.GetRolesAsync(user);
+
+            var jwt = GenerateJwtToken(user, roles);
+
+            return Ok(new { token = jwt });
         }
     }
 }
