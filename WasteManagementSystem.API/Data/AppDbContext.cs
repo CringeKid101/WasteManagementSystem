@@ -14,6 +14,7 @@ namespace WasteManagementSystem.API.Data
         public DbSet<WasteReport> WasteReports { get; set; }
         public DbSet<EventAttendance> EventAttendances { get; set; }
         public DbSet<OrganizerRequest> OrganizerRequests { get; set; }
+        public DbSet<PasswordResetOtp> PasswordResetOtps { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

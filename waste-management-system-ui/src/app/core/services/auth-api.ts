@@ -14,7 +14,7 @@ export class AuthApi {
   constructor(private http: HttpClient) {}
 
   googleLogin(token: string) {
-    return this.http.post('/api/auth/google', { token });
+    return this.http.post('/google-login', { token });
   }
   login(data: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.baseUrl + '/login', data);
@@ -24,7 +24,15 @@ export class AuthApi {
     return this.http.post<LoginResponse>(this.baseUrl + '/register', data);
   }
 
-  sendOtp(email: string): Observable<void> {
-    return this.http.post<void>(this.baseUrl + '/send-otp', { email });
+  requestOtp(email: string): Observable<void> {
+    return this.http.post<void>(this.baseUrl + '/forgot-password', { email });
   }
+
+  verifyOtp(email: string, otp: string): Observable<any> {
+    return this.http.post('/api/auth/verify-otp', { email, otp });
+  }
+
+  // resetPassword(resetData: ResetPasswordDto): Observable<any> {
+  //   return this.http.post('/api/auth/reset-password', resetData);
+  // }
 }

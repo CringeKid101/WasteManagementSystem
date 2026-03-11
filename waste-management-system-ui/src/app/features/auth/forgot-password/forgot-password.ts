@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import {MatError, MatFormFieldModule } from '@angular/material/form-field';
 import {MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,11 +9,12 @@ import { AuthApi } from '../../../core/services/auth-api';
 
 @Component({
   selector: 'app-forgot-password',
-  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatError],
+  imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatError, CommonModule],
   templateUrl: './forgot-password.html',
   styleUrl: './forgot-password.css',
 })
 export class ForgotPassword implements OnInit {
+  currentStep = 'request';
 step = 1;
   emailForm!: FormGroup;
   otpForm!: FormGroup;
@@ -35,13 +37,15 @@ step = 1;
     });
   }
 
-  sendOtp() {
+  requestOtp() {
     if (this.emailForm.invalid) return;
 
     const email = this.emailForm.value.email;
 
-    console.log('Send OTP to', email);
-    this.authApi.sendOtp(email).subscribe();
+    // console.log('Send OTP to', email);
+    this.authApi.requestOtp(email).subscribe(
+      
+    );
 
     this.step = 2;
   }

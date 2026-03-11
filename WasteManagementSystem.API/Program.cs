@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using WasteManagementSystem.API.Data;
 using WasteManagementSystem.API.Models;
+using WasteManagementSystem.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         x => x.UseNetTopologySuite()
     )
 );
+builder.Services.AddScoped<IEmailService, SmtpEmailService>();
 builder
     .Services.AddIdentity<User, IdentityRole<Guid>>()
     .AddEntityFrameworkStores<AppDbContext>()
