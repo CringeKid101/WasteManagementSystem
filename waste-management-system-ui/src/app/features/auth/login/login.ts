@@ -5,7 +5,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { AuthApi } from '../../../core/services/auth-api';
-import { share } from 'rxjs';
+import { RouterLinkActive, RouterLink} from "@angular/router";
 
 declare const google: any;
 
@@ -17,7 +17,9 @@ declare const google: any;
     MatDividerModule,
     MatInputModule,
     MatButtonModule,
-  ],
+    RouterLinkActive,
+    RouterLink
+],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -44,7 +46,7 @@ export class Login implements OnInit, AfterViewInit {
     });
 
     google.accounts.id.renderButton(document.getElementById('googleButton'), {
-      theme: 'filled_blue',
+      theme: 'outline',
       size: 'large',
       shape: "pill",
       width: 300,

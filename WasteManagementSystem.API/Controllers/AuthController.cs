@@ -147,5 +147,16 @@ namespace WasteManagementSystem.API.Controllers
 
             return Ok(new { token = jwt });
         }
+
+        [HttpPost("send-otp")]
+        public async Task<IActionResult> SendPasswordResetOtp(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                return BadRequest("Could not find the email ID in our system");
+            }
+            return Ok();
+        }
     }
 }

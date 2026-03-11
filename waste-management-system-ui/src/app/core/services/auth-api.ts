@@ -11,17 +11,20 @@ import { RegisterRequest } from '../models/register-request.model';
 export class AuthApi {
   private baseUrl = 'https://localhost:7019/api/auth';
 
-  constructor(private http: HttpClient){
-  }
+  constructor(private http: HttpClient) {}
 
   googleLogin(token: string) {
-  return this.http.post('/api/auth/google', { token });
-}
-  login(data: LoginRequest): Observable<LoginResponse>{
-    return this.http.post<LoginResponse>(this.baseUrl + "/login", data);
+    return this.http.post('/api/auth/google', { token });
+  }
+  login(data: LoginRequest): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(this.baseUrl + '/login', data);
   }
 
-  register(data: RegisterRequest): Observable<LoginResponse>{
-    return this.http.post<LoginResponse>(this.baseUrl + "/register", data);
+  register(data: RegisterRequest): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(this.baseUrl + '/register', data);
+  }
+
+  sendOtp(email: string): Observable<void> {
+    return this.http.post<void>(this.baseUrl + '/send-otp', { email });
   }
 }
