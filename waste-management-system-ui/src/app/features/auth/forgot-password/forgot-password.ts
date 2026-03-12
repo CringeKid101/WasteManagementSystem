@@ -39,31 +39,52 @@ step = 1;
 
   requestOtp() {
     if (this.emailForm.invalid) return;
-
     const email = this.emailForm.value.email;
-
-    // console.log('Send OTP to', email);
-    this.authApi.requestOtp(email).subscribe(
-      
+    this.authApi.requestOtp({ email }).subscribe({
+      next: () => {
+        console.log('OTP sent successfully');
+        this.currentStep = 'verify';
+      },
+      error: (err) => {
+        console.error('Failed to send OTP', err);
+      }
+    }
     );
-
-    this.step = 2;
   }
 
   verifyOtp() {
     if (this.otpForm.invalid) return;
-
-    console.log('OTP', this.otpForm.value.otp);
-
-    this.step = 3;
+    const verifyRequest = {
+      email: this.emailForm.value.email,
+      otp: this.otpForm.value.otp
+    };
+    this.authApi.verifyOtp(verifyRequest).subscribe({
+      next: () => {
+        console.log('OTP verified successfully');
+        this.currentStep = 'reset';
+      },
+      error: (err) => {
+        console.error('OTP verification failed', err);
+      }
+    });
   }
 
   resetPassword() {
     if (this.passwordForm.invalid) return;
+    const resetRequest = {
+      resetToken: this.otpForm.value.otp,
+      newPassword: this.passwordForm.value.password
+    };
 
-    console.log('Reset password');
-
-    this.step = 4;
+    this.authApi.resetPassword(resetRequest).subscribe({
+      next: () => {
+        console.log('Password reset successfully');
+        this.currentStep = 'completed';
+      },
+      error: (err) => {
+        console.error('Failed to reset password', err);
+      }
+    });
   }
 }
 

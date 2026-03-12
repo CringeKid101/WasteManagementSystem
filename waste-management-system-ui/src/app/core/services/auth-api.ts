@@ -1,9 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { LoginRequest } from '../models/login-request.model';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { LoginResponse } from '../models/login-response.model';
 import { RegisterRequest } from '../models/register-request.model';
+import { RequestOtpRequest } from '../models/request-otp-request.model';
+import { VerifyOtpRequest } from '../models/verify-otp-request.model';
+import { ResetPasswordRequest } from '../models/reset-password-request';
 
 @Injectable({
   providedIn: 'root',
@@ -24,15 +27,27 @@ export class AuthApi {
     return this.http.post<LoginResponse>(this.baseUrl + '/register', data);
   }
 
-  requestOtp(email: string): Observable<void> {
-    return this.http.post<void>(this.baseUrl + '/forgot-password', { email });
+  requestOtp(otpRequest: RequestOtpRequest): Observable<void> {
+    return this.http.post<void>(this.baseUrl + '/forgot-password', otpRequest.email).pipe(
+      catchError((error) => {
+        return throwError(() => new Error('Failed to send OTP'));
+      })
+    );
   }
 
-  verifyOtp(email: string, otp: string): Observable<any> {
-    return this.http.post('/api/auth/verify-otp', { email, otp });
+  verifyOtp(verifyRequest: VerifyOtpRequest): Observable<any> {
+    return this.http.post('/api/auth/verify-otp', verifyRequest).pipe(
+      catchError((error) => {
+        return throwError(() => new Error('OTP verification failed'));
+      })
+    );
   }
 
-  // resetPassword(resetData: ResetPasswordDto): Observable<any> {
-  //   return this.http.post('/api/auth/reset-password', resetData);
-  // }
+  resetPassword(resetRequest: ResetPasswordRequest): Observable<any> {
+    return this.http.post('/api/auth/reset-password', resetRequest).pipe(
+      catchError((error) => {
+        return throwError(() => new Error('Failed to reset password'));
+      })
+    );
+  }
 }
