@@ -6,3 +6,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mdc-notched-outline__notch {
   border-right: none;
 }
+
+.animated-teal-bg {
+  background: linear-gradient(-45deg, #022e35, #0C7779, #8aded7, rgb(117, 201, 201));
+  background-size: 350% 350%;
+  animation: gradientBG 10s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}

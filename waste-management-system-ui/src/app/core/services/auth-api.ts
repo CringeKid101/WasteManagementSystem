@@ -31,7 +31,7 @@ export class AuthApi {
     return this.http.post<void>(this.baseUrl + '/forgot-password', otpRequest.email).pipe(
       catchError((error) => {
         return throwError(() => new Error('Failed to send OTP'));
-      })
+      }),
     );
   }
 
@@ -39,7 +39,7 @@ export class AuthApi {
     return this.http.post('/api/auth/verify-otp', verifyRequest).pipe(
       catchError((error) => {
         return throwError(() => new Error('OTP verification failed'));
-      })
+      }),
     );
   }
 
@@ -47,7 +47,7 @@ export class AuthApi {
     return this.http.post('/api/auth/reset-password', resetRequest).pipe(
       catchError((error) => {
         return throwError(() => new Error('Failed to reset password'));
-      })
+      }),
     );
   }
 }

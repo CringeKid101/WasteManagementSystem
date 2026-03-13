@@ -1,0 +1,119 @@
+<div class="min-h-screen flex items-center justify-center animated-teal-bg">
+  <!-- <mat-card class="w-full max-w-md p-6"> -->
+  <div class="bg-amber-100 rounded-xl shadow-lg overflow-hidden max-w-md w-full">
+    <form [formGroup]="signUpForm" (ngSubmit)="submit()" class="space-y-5 p-6">
+      <div class="text-left mb-8">
+        <span class="text-2xl text-left font-bold text-teal-800 p-5">Create an account.</span>
+      </div>
+      <!-- Name -->
+      <mat-form-field
+        appearance="outline"
+        class="w-full"
+        floatLabel="auto"
+        hideRequiredMarker="true"
+      >
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstName" />
+        @if (
+          signUpForm.controls['firstName'].touched &&
+          signUpForm.controls['firstName'].hasError('required')
+        ) {
+          <mat-error> First Name is required. </mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field
+        appearance="outline"
+        class="w-full"
+        floatLabel="auto"
+        hideRequiredMarker="true"
+      >
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName" />
+        @if (
+          signUpForm.controls['lastName'].touched &&
+          signUpForm.controls['lastName'].hasError('required')
+        ) {
+          <mat-error> Last Name is required. </mat-error>
+        }
+      </mat-form-field>
+      <!-- Email -->
+      <mat-form-field
+        appearance="outline"
+        class="w-full"
+        floatLabel="auto"
+        hideRequiredMarker="true"
+      >
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" />
+        @if (
+          signUpForm.controls['email'].touched && signUpForm.controls['email'].hasError('required')
+        ) {
+          <mat-error> Email is required. </mat-error>
+        }
+        @if (
+          signUpForm.controls['email'].touched && signUpForm.controls['email'].hasError('email')
+        ) {
+          <mat-error> Invalid email format. </mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Password -->
+      <mat-form-field
+        appearance="outline"
+        class="w-full"
+        floatLabel="auto"
+        hideRequiredMarker="true"
+      >
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password" />
+        @if (
+          signUpForm.controls['password'].touched &&
+          signUpForm.controls['password'].hasError('required')
+        ) {
+          <mat-error> Password is required. </mat-error>
+        }
+        @if (
+          signUpForm.controls['password'].touched &&
+          signUpForm.controls['password'].hasError('pattern')
+        ) {
+          <mat-error>
+            Password must contain at least 8 characters, including uppercase, lowercase, number, and
+            special character.
+          </mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Confirm Password -->
+      <mat-form-field
+        appearance="outline"
+        class="w-full"
+        floatLabel="auto"
+        hideRequiredMarker="true"
+      >
+        <mat-label>Confirm Password</mat-label>
+        <input matInput type="password" formControlName="confirmPassword" />
+        @if (
+          signUpForm.controls['confirmPassword'].touched &&
+          signUpForm.controls['confirmPassword'].hasError('passwordMismatch')
+        ) {
+          <mat-error> Passwords do not match. </mat-error>
+        }
+      </mat-form-field>
+
+      <!-- Signup Button -->
+      <button
+        mat-raised-button
+        color="primary"
+        class="w-full bg-teal-700! text-white! py-3! rounded-full! hover:bg-teal-800! transition-all duration-200 shadow-md"
+        type="submit"
+      >
+        Sign Up
+      </button>
+      <div class="flex justify-center">
+        <span>Already have an account?&nbsp;</span>
+        <a routerLink="/login" class="text-teal-800 cursor-pointer"> Sign In </a>
+      </div>
+    </form>
+  </div>
+</div>

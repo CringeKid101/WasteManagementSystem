@@ -1,18 +1,18 @@
-﻿using Azure.Core;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Azure.Core;
 using Google.Apis.Auth;
 using MailKit.Security;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using WasteManagementSystem.API.Data;
 using WasteManagementSystem.API.DTOs;
 using WasteManagementSystem.API.Models;
 using WasteManagementSystem.API.Services;
-using Microsoft.EntityFrameworkCore;
 
 namespace WasteManagementSystem.API.Controllers
 {
@@ -25,7 +25,6 @@ namespace WasteManagementSystem.API.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly IConfiguration _configuration;
         private readonly IEmailService _emailService;
-
 
         public AuthController(
             AppDbContext context,
@@ -43,10 +42,15 @@ namespace WasteManagementSystem.API.Controllers
         }
 
         /// <summary>
-        /// register a new user.
+        /// Registers a new user account using the specified registration details.
         /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        /// <remarks>The method validates the registration data, checks for existing users with the same
+        /// email address, and ensures that the password and confirmation password match. Upon successful registration,
+        /// the new user is assigned to the 'User' role.</remarks>
+        /// <param name="model">An object containing the user's registration information, including email address, password, confirmation
+        /// password, and personal details. All required fields must be provided and valid.</param>
+        /// <returns>An IActionResult that indicates the outcome of the registration process. Returns a success message if
+        /// registration is successful; otherwise, returns an error message describing the reason for failure.</returns>
         [HttpPost("register")]
         public async Task<IActionResult> Register(RegisterDto model)
         {
@@ -116,6 +120,7 @@ namespace WasteManagementSystem.API.Controllers
                 }
             );
         }
+
         /// <summary>
         /// Generates a JSON Web Token (JWT) that contains claims for the specified user and their associated roles.
         /// </summary>
@@ -171,7 +176,7 @@ namespace WasteManagementSystem.API.Controllers
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim("purpose", "password-reset")
+                new Claim("purpose", "password-reset"),
             };
 
             var key = new SymmetricSecurityKey(
@@ -218,7 +223,14 @@ namespace WasteManagementSystem.API.Controllers
 
             var jwt = GenerateJwtToken(user, roles);
 
-            return Ok(new { token = jwt, user.Email, roles });
+            return Ok(
+                new
+                {
+                    token = jwt,
+                    user.Email,
+                    roles,
+                }
+            );
         }
 
         /// <summary>
@@ -233,7 +245,9 @@ namespace WasteManagementSystem.API.Controllers
         /// <returns>An IActionResult that indicates the result of the operation. Returns Ok() regardless of whether the email
         /// address exists in the system.</returns>
         [HttpPost("forgot-password")]
-        public async Task<IActionResult> SendPasswordResetOtp(ForgotPasswordRequestDto forgotPasswordRequest)
+        public async Task<IActionResult> SendPasswordResetOtp(
+            ForgotPasswordRequestDto forgotPasswordRequest
+        )
         {
             try
             {
@@ -249,7 +263,7 @@ namespace WasteManagementSystem.API.Controllers
                     UserId = user.Id,
                     OtpCode = otp,
                     ExpiresAt = DateTime.UtcNow.AddMinutes(10),
-                    IsUsed = false
+                    IsUsed = false,
                 };
 
                 _context.PasswordResetOtps.Add(reset);
@@ -262,7 +276,7 @@ namespace WasteManagementSystem.API.Controllers
             catch
             {
                 return BadRequest("OTP failed to send.");
-            }  
+            }
         }
 
         /// <summary>
@@ -282,8 +296,8 @@ namespace WasteManagementSystem.API.Controllers
             if (user == null)
                 return BadRequest("Invalid OTP");
 
-            var otp = await _context.PasswordResetOtps
-                .Where(x => x.UserId == user.Id && !x.IsUsed)
+            var otp = await _context
+                .PasswordResetOtps.Where(x => x.UserId == user.Id && !x.IsUsed)
                 .OrderByDescending(x => x.CreatedAt)
                 .FirstOrDefaultAsync();
 
@@ -313,19 +327,18 @@ namespace WasteManagementSystem.API.Controllers
             try
             {
                 var principal = handler.ValidateToken(
-                request.ResetToken,
-                new TokenValidationParameters
-                {
-                    ValidateIssuer = false,
-                    ValidateAudience = false,
-                    ValidateLifetime = true,
-                    IssuerSigningKey =
-                        new SymmetricSecurityKey(
+                    request.ResetToken,
+                    new TokenValidationParameters
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        IssuerSigningKey = new SymmetricSecurityKey(
                             Encoding.UTF8.GetBytes(_configuration["Jwt:Key"])
-                        )
-                },
-                out var validatedToken
-            );
+                        ),
+                    },
+                    out var validatedToken
+                );
 
                 var purpose = principal.FindFirst("purpose")?.Value;
 

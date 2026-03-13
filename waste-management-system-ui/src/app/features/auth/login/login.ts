@@ -5,7 +5,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { AuthApi } from '../../../core/services/auth-api';
-import { RouterLinkActive, RouterLink} from "@angular/router";
+import {RouterLink} from "@angular/router";
+import { LoginRequest } from '../../../core/models/login-request.model';
 
 declare const google: any;
 
@@ -17,7 +18,6 @@ declare const google: any;
     MatDividerModule,
     MatInputModule,
     MatButtonModule,
-    RouterLinkActive,
     RouterLink
 ],
   templateUrl: './login.html',
@@ -61,7 +61,18 @@ export class Login implements OnInit, AfterViewInit {
 
   submit() {
     if (this.loginForm.invalid) return;
-    const data = this.loginForm.value;
-    console.log(data);
+    const data: LoginRequest = {
+      email: this.loginForm.value.email,
+      password: this.loginForm.value.password,    
+    }
+    this.authApi.login(data).subscribe({
+      next: (res) => {
+        console.log('Login successful:', res);
+        console.log(res);
+      },
+      error: (err) => {
+        console.error('Login failed:', err);
+      }
+    });
   }
 }
