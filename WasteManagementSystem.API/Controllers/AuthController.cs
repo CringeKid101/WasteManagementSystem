@@ -1,14 +1,15 @@
-﻿using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Azure.Core;
+﻿using Azure.Core;
 using Google.Apis.Auth;
 using MailKit.Security;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using WasteManagementSystem.API.Data;
 using WasteManagementSystem.API.DTOs;
 using WasteManagementSystem.API.Models;
@@ -111,14 +112,30 @@ namespace WasteManagementSystem.API.Controllers
 
             var token = GenerateJwtToken(user, roles);
 
-            return Ok(
-                new
-                {
-                    token,
-                    user.Email,
-                    roles,
-                }
-            );
+            Response.Cookies.Append("access_token", token, new CookieOptions
+            {
+                HttpOnly = true,
+                Secure = true,
+                SameSite = SameSiteMode.Strict,
+                Expires = DateTime.UtcNow.AddMinutes(15)
+            });
+            return Ok("Login Successful.");
+        }
+
+        /// <summary>
+        /// Retrieves the email address and role of the currently authenticated user.
+        /// </summary>
+        /// <remarks>This method requires the user to be authenticated. It obtains the user's email and
+        /// role from the claims associated with the current user.</remarks>
+        /// <returns>An object containing the user's email and role. Returns an empty object if the user is not authenticated.</returns>
+        [Authorize]
+        [HttpGet("me")]
+        public IActionResult Me()
+        {
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+
+            return Ok(new { email, role });
         }
 
         /// <summary>

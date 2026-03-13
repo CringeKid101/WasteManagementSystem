@@ -42,6 +42,14 @@ builder
                 System.Text.Encoding.UTF8.GetBytes(jwtSettings["Key"])
             ),
         };
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                context.Token = context.Request.Cookies["access_token"];
+                return Task.CompletedTask;
+            }
+        };
     });
 
 builder.Services.AddCors(options =>

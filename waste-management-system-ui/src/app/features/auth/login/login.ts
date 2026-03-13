@@ -4,11 +4,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
-import { AuthApi } from '../../../core/services/auth-api';
-import {RouterLink} from "@angular/router";
+import { Auth } from '../../../core/services/auth';
+import { RouterLink } from "@angular/router";
 import { LoginRequest } from '../../../core/models/login-request.model';
-
-declare const google: any;
+import { GoogleAuth } from '../../../core/services/google-auth';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +18,7 @@ declare const google: any;
     MatInputModule,
     MatButtonModule,
     RouterLink
-],
+  ],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -27,8 +26,9 @@ export class Login implements OnInit, AfterViewInit {
   loginForm!: FormGroup;
   constructor(
     private fb: FormBuilder,
-    private authApi: AuthApi,
-  ) {}
+    private auth: Auth,
+    private googleAuth: GoogleAuth
+  ) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -38,34 +38,26 @@ export class Login implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    google.accounts.id.initialize({
-      client_id: '902810269128-2qtfjap786daklf1etak8g975c2c616c.apps.googleusercontent.com',
-      callback: this.handleGoogleLogin.bind(this),
-      auto_select: false,
-      cancel_on_tap_outside: false,
-    });
-
-    google.accounts.id.renderButton(document.getElementById('googleButton'), {
-      theme: 'outline',
-      size: 'large',
-      shape: "pill",
-      width: 300,
-    });
+    this.googleAuth.initialize(this.handleGoogleLogin.bind(this));
+    var button = document.getElementById('googleButton');
+    if (button) {
+      this.googleAuth.renderButton(button);
+    }
   }
 
   handleGoogleLogin(response: any) {
     const token = response.credential;
     console.log('Google ID Token:', token);
-    this.authApi.googleLogin(token).subscribe();
+    this.auth.handleGoogleLogin(token).subscribe();
   }
 
   submit() {
     if (this.loginForm.invalid) return;
     const data: LoginRequest = {
       email: this.loginForm.value.email,
-      password: this.loginForm.value.password,    
+      password: this.loginForm.value.password,
     }
-    this.authApi.login(data).subscribe({
+    this.auth.login(data).subscribe({
       next: (res) => {
         console.log('Login successful:', res);
         console.log(res);

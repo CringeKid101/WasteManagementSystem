@@ -18,3 +18,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+
+.otp-input {
+  @apply w-12 h-14 text-center text-xl font-semibold
+  border border-gray-300 rounded-lg
+  focus:outline-none focus:ring-2 focus:ring-teal-800;
+}
