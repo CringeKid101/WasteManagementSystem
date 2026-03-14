@@ -1,19 +1,25 @@
-<header class="bg-white shadow px-6 py-4 flex justify-between items-center">
+<header class="bg-linear-to-r from-emerald-700 to-teal-600 shadow px-6 py-4 flex justify-between items-center">
 
   <h1 class="text-xl font-semibold text-gray-800">
-    Dashboard
+    Hi Sooraj, Welcome Back! How do you want to change the world today?
   </h1>
 
   <div class="flex items-center gap-4">
-
-    <span class="text-gray-600">
-      Welcome
-    </span>
-
-    <button mat-icon-button>
-      <mat-icon>account_circle</mat-icon>
+    <button mat-raised-button color="primary" class="bg-teal-800! text-white!">
+      JOIN EVENT
+    </button>
+    <button mat-raised-button color="primary" (click)="openReportModal()" class="bg-red-800! text-white!">
+      REPORT WASTE
     </button>
 
+    <span class="text-gray-600">
+      Sooraj Seby
+    </span>
+
+    <!-- <button mat-icon-button>
+      <mat-icon>account_circle</mat-icon>
+    </button> -->
+    <img src="https://i.pravatar.cc/40" class="rounded-full">
   </div>
 
 </header>

@@ -4,6 +4,7 @@ import { ForgotPassword } from './features/auth/forgot-password/forgot-password'
 import { SignUp } from './features/auth/sign-up/sign-up';
 import { DashboardLayout } from './layouts/dashboard-layout/dashboard-layout';
 import { authGuard } from './core/guards/auth-guard';
+import { Dashboard } from './features/dashboard/dashboard';
 
 export const routes: Routes = [
   {
@@ -21,9 +22,9 @@ export const routes: Routes = [
   {
     path: '',
     component: DashboardLayout,
-    canActivate: [authGuard],
+    // canActivate: [authGuard],
     children: [
-      { path: 'dashboard', component: DashboardLayout},
+      { path: 'dashboard', component: Dashboard},
     ]
   },
   {
