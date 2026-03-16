@@ -1,0 +1,26 @@
+<div class="p-6 space-y-6">
+
+  <!-- Page Title -->
+  <div class="flex justify-between items-center">
+    <h1 class="text-2xl font-semibold text-gray-800 font-family-heading">
+      Waste Reports
+    </h1>
+  </div>
+
+
+  <!-- Stats Cards -->
+  <app-report-stats></app-report-stats>
+  <!-- Filters -->
+     <app-report-filters></app-report-filters>
+  <!-- Reports Table -->
+  <app-reports-table></app-reports-table>
+
+  <div class="flex justify-end mt-6">
+          
+          <button mat-raised-button class="bg-amber-600! text-white!" (click)="openCreateEventModal()">
+               <mat-icon>add</mat-icon>
+               Create New Event
+          </button>
+
+     </div>
+</div>

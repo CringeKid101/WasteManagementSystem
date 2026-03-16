@@ -28,12 +28,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 /* 3. The focused state (Your Teal brand color) */
 .mat-mdc-form-field.mat-focused .mdc-notched-outline__leading,
 .mat-mdc-form-field.mat-focused .mdc-notched-outline__trailing {
-  border-color: #115e59 !important; /* Teal-500 */
+  border-color: #334155 !important; /* Teal-500 */
   border-width: 2px !important;
 }
 
 .mat-mdc-form-field.mat-focused .mdc-notched-outline__notch{
-  border-color: #115e59 !important; /* Make the notch border transparent */
+  border-color: #334155 !important; /* Make the notch border transparent */
 }
 
 .mdc-notched-outline__notch {
@@ -80,4 +80,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
   border-radius: 10px;
+}
+
+/* Define the fade and shrink animation */
+@keyframes vanish {
+  0% { opacity: 1; height: auto; margin-bottom: 1rem; }
+  100% { opacity: 0; height: 0; margin-bottom: 0; padding: 0; overflow: hidden; }
+}
+
+.card-vanish {
+  animation: vanish 0.5s ease-out forwards;
 }

@@ -1,7 +1,7 @@
 <aside 
   [class.w-64]="!isCollapsed" 
   [class.w-20]="isCollapsed"
-  class="bg-slate-950 text-white flex h-screen flex-col transition-all duration-300 border-r border-slate-800 shrink-0">
+  class="bg-slate-900 text-white flex h-screen flex-col transition-all duration-300 border-r border-slate-800 shrink-0">
 
   <!-- Header & Toggle -->
   <div class="px-6 py-6 flex items-center justify-between overflow-hidden">
@@ -39,20 +39,20 @@
     </a>
 
     <!-- Create Events -->
-    <a routerLink="/create-event" routerLinkActive="bg-teal-500/10 text-teal-400 border-l-2 border-amber-500"
+    <!-- <a routerLink="/create-event" routerLinkActive="bg-teal-500/10 text-teal-400 border-l-2 border-amber-500"
        class="flex items-center px-4 py-3 text-slate-400 rounded transition-all hover:bg-teal-500/10 hover:text-teal-400 group cursor-pointer">
       <svg class="w-5 h-5 min-w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
         @if(!isCollapsed){
         <span class="ml-4 whitespace-nowrap">Create Events</span>
       }
-    </a>
+    </a> -->
 
     <!-- Report Waste -->
-    <a routerLink="/report-waste" routerLinkActive="bg-teal-500/10 text-teal-400 border-l-2 border-amber-500"
+    <a routerLink="/waste-reports" routerLinkActive="bg-teal-500/10 text-teal-400 border-l-2 border-amber-500"
        class="flex items-center px-4 py-3 text-slate-400 rounded transition-all hover:bg-teal-500/10 hover:text-teal-400 group cursor-pointer">
       <svg class="w-5 h-5 min-w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
       @if(!isCollapsed){
-        <span class="ml-4 whitespace-nowrap">Report Waste</span>
+        <span class="ml-4 whitespace-nowrap">Waste Reports</span>
       }
     </a>
 
@@ -62,6 +62,14 @@
       <svg class="w-5 h-5 min-w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
       @if(!isCollapsed){
         <span class="ml-4 whitespace-nowrap">Organizer Requests</span>
+      }
+    </a>
+
+    <a routerLink="/login" routerLinkActive="bg-teal-500/10 text-teal-400 border-l-2 border-amber-500"
+       class="flex items-center px-4 py-3 text-slate-400 rounded transition-all hover:bg-teal-500/10 hover:text-teal-400 group cursor-pointer">
+      <mat-icon class="text-red-600">logout</mat-icon>
+      @if(!isCollapsed){
+        <span class="ml-4 whitespace-nowrap">Logout</span>
       }
     </a>
 

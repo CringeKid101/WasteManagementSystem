@@ -1,0 +1,154 @@
+<h2 mat-dialog-title class="text-xl font-semibold">
+  Create Cleanup Event
+</h2>
+
+<form class="space-y-6">
+
+  <mat-dialog-content class="space-y-6">
+
+    <!-- Event Title -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Event Title</mat-label>
+      <input
+        matInput
+        placeholder="Beach Cleanup Drive"
+        name="title"
+      />
+    </mat-form-field>
+
+
+    <!-- Two Column Layout -->
+    <div class="grid md:grid-cols-2 gap-4">
+
+      <!-- Date -->
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Event Date</mat-label>
+        <input matInput [matDatepicker]="picker" />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="picker">
+        </mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+
+      <!-- Time -->
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>Event Time</mat-label>
+        <input matInput type="time" />
+      </mat-form-field>
+
+    </div>
+
+
+    <!-- Location -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Location</mat-label>
+      <input
+        matInput
+        placeholder="MG Road Park"
+      />
+    </mat-form-field>
+
+
+    <!-- Address -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Address</mat-label>
+      <textarea
+        matInput
+        rows="2"
+        placeholder="MG Road, Bangalore"
+      ></textarea>
+    </mat-form-field>
+
+
+    <!-- Waste Type -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Cleanup Type</mat-label>
+
+      <mat-select>
+
+        <mat-option value="plastic">
+          Plastic Waste
+        </mat-option>
+
+        <mat-option value="organic">
+          Organic Waste
+        </mat-option>
+
+        <mat-option value="mixed">
+          Mixed Waste
+        </mat-option>
+
+        <mat-option value="construction">
+          Construction Waste
+        </mat-option>
+
+      </mat-select>
+
+    </mat-form-field>
+
+
+    <!-- Max Volunteers -->
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Maximum Volunteers</mat-label>
+      <input
+        matInput
+        type="number"
+        placeholder="50"
+      />
+    </mat-form-field>
+
+
+    <!-- Description -->
+    <mat-form-field appearance="outline" class="w-full">
+
+      <mat-label>Description</mat-label>
+
+      <textarea
+        matInput
+        rows="4"
+        placeholder="Describe the cleanup activity..."
+      ></textarea>
+
+    </mat-form-field>
+
+
+    <!-- Image Upload -->
+    <div class="space-y-2">
+
+      <label class="text-sm font-medium text-gray-600">
+        Event Banner
+      </label>
+
+      <input
+        type="file"
+        class="block w-full text-sm text-gray-500
+        file:mr-4 file:py-2 file:px-4
+        file:rounded file:border-0
+        file:text-sm file:font-semibold
+        file:bg-green-50 file:text-green-700
+        hover:file:bg-green-100"
+      />
+
+    </div>
+
+  </mat-dialog-content>
+
+
+  <!-- Dialog Actions -->
+  <mat-dialog-actions class="flex justify-between w-full pt-4">
+
+    <div class="flex justify-between w-full">
+
+                    <button mat-raised-button mat-dialog-close class="bg-teal-800! text-white!">
+                         CANCEL
+                    </button>
+
+                    <button mat-raised-button type="submit" class="bg-red-800! text-white!">
+                         CREATE EVENT
+                    </button>
+
+               </div>
+  </mat-dialog-actions>
+
+</form>

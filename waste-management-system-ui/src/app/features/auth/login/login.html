@@ -1,14 +1,14 @@
-<div class="min-h-screen flex items-center justify-center  bg-slate-950 border-teal-500/20">
+<div class="min-h-screen flex items-center justify-center  bg-slate-500 border-teal-500/20">
   <div class="grid grid-cols-1 md:grid-cols-2 max-w-7xl bg-[#F6F8F4] rounded-xl shadow-lg overflow-hidden">
     <!-- LEFT SIDE LOGIN -->
     <div class="p-10">
       <div class="flex justify-center mb-6">
-        <span class="text-2xl font-bold tracking-tight text-center text-teal-950 cursor-pointer">WASTEWISE</span>
+        <span class="text-3xl font-bold tracking-tight text-center text-slate-950 cursor-pointer">WASTEWISE</span>
       </div>
 
-      <h2 class="text-2xl font-semibold mb-2 text-teal-800">Welcome Back!</h2>
+      <h2 class="text-2xl font-semibold mb-2 text-slate-800">Welcome Back!</h2>
       <p class="text-gray-500 mb-6">
-        Sign in to access your dashboard and continue optimizing your QA process.
+        Sign in to access your dashboard and continue making a difference!
       </p>
 
       <form [formGroup]="loginForm" (ngSubmit)="submit()" class="space-y-5">
@@ -40,12 +40,12 @@
         </mat-form-field>
 
         <div class="flex justify-end mt-2">
-          <a class="text-teal-700 text-sm cursor-pointer" routerLink="/forgot-password">
+          <a class="text-slate-700 font-bold text-sm cursor-pointer" routerLink="/forgot-password">
             Forgot Password?
           </a>
         </div>
 
-        <button mat-raised-button color="primary" class="w-full bg-teal-800! text-white!">
+        <button mat-raised-button color="primary" routerLink="/dashboard" class="w-full bg-slate-800! text-white!">
           Sign In
         </button>
 
@@ -59,13 +59,13 @@
 
         <p class="text-sm text-center mt-4">
           Don't have an account?
-          <a class="text-teal-700 text-sm cursor-pointer" routerLink="/sign-up"> Sign Up </a>
+          <a class="text-slate-700 font-bold text-sm cursor-pointer" routerLink="/sign-up"> Sign Up </a>
         </p>
       </form>
     </div>
 
     <!-- RIGHT SIDE PROMO -->
-    <div class="hidden md:flex flex-col justify-center text-white p-10 bg-teal-800">
+    <div class="hidden md:flex flex-col justify-center text-white p-10 bg-linear-to-r from-slate-900 to-slate-700">
       <h2 class="text-3xl font-semibold mb-4">Make your city cleaner today!</h2>
 
       <p class="opacity-90 mb-6">

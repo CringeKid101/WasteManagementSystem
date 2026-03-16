@@ -1,9 +1,9 @@
-<div class="min-h-screen flex items-center justify-center  bg-slate-950 border-teal-500/20">
+<div class="min-h-screen flex items-center justify-center  bg-slate-500 border-teal-500/20">
   <div class="grid grid-cols-1 md:grid-cols-2 max-w-7xl w-full bg-[#F6F8F4] rounded-xl shadow-lg overflow-hidden">
     <div class="p-10">
-      <h2 class="text-2xl font-semibold mb-2 text-teal-800">Create an Account!</h2>
+      <h2 class="text-2xl font-semibold mb-2 text-slate-800">Create an Account!</h2>
       <p class="text-gray-500 mb-6">
-        Sign in to access your dashboard and continue optimizing your QA process.
+        Sign in to access your dashboard and continue making a difference!
       </p>
       <form [formGroup]="signUpForm" (ngSubmit)="submit()" class="space-y-5 p-6">
         <!-- Name -->
@@ -79,18 +79,18 @@
 
         <!-- Signup Button -->
         <button mat-raised-button color="primary"
-          class="w-full bg-teal-700! text-white! py-3! rounded-full! hover:bg-teal-800! transition-all duration-200 shadow-md"
+          class="w-full bg-slate-700! text-white! py-3! rounded-full! hover:bg-slate-800! transition-all duration-200 shadow-md"
           type="submit">
           Sign Up
         </button>
         <div class="flex justify-center">
           <span>Already have an account?&nbsp;</span>
-          <a routerLink="/login" class="text-teal-800 cursor-pointer"> Sign In </a>
+          <a routerLink="/login" class="text-slate-800 font-bold cursor-pointer"> Sign In </a>
         </div>
       </form>
     </div>
 
-    <div class="hidden md:flex flex-col justify-center text-white p-10 bg-teal-800">
+    <div class="hidden md:flex flex-col justify-center text-white p-10 bg-linear-to-r from-slate-900 to-slate-700">
       <h2 class="text-3xl font-semibold mb-4">Make your city cleaner today!</h2>
 
       <p class="opacity-90 mb-6">

@@ -3,9 +3,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { WasteReport } from '../../../features/waste-report/waste-report/waste-report';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-navbar',
-  imports: [MatIconModule, MatButtonModule],
+  imports: [MatIconModule, MatButtonModule, RouterLink],
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
