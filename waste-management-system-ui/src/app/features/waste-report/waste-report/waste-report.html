@@ -1,0 +1,83 @@
+<div class="overflow-hidden">
+     <h2 mat-dialog-title>Report Waste</h2>
+
+     <!-- <div class="grid grid-cols-2 gap-6"> -->
+     <form [formGroup]="reportForm" (ngSubmit)="submitReport()">
+          <mat-dialog-content class="space-y-5">
+               <div class="grid grid-cols-2 gap-6">
+                    <div class="space-y-4">
+                         <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer">
+                              <mat-icon class="text-gray-500 text-3xl">add_a_photo</mat-icon>
+                              <p class="text-gray-500 text-sm mt-2">Upload waste image</p>
+                         </div>
+
+
+                         <mat-form-field appearance="outline" class="w-full">
+                              <mat-label>Description</mat-label>
+                              <textarea matInput rows="3" formControlName="description"></textarea>
+                         </mat-form-field>
+
+                         <div class="grid grid-cols-2 gap-4 space-y-0">
+                              <mat-form-field appearance="outline">
+                                   <mat-label>Latitude</mat-label>
+                                   <input matInput formControlName="latitude" />
+                              </mat-form-field>
+
+                              <mat-form-field appearance="outline">
+                                   <mat-label>Longitude</mat-label>
+                                   <input matInput formControlName="longitude" />
+                              </mat-form-field>
+                         </div>
+                    </div>
+
+                    <div class="space-y-3">
+                         <mat-form-field appearance="outline" class="w-full">
+                              <mat-label>Select Event Type</mat-label>
+                              <mat-select>
+                                   <mat-option value="cleanup">Beach Cleanup</mat-option>
+                                   <mat-option value="recycling">Recycling Drive</mat-option>
+                                   <mat-option value="workshop">Compost Workshop</mat-option>
+                              </mat-select>
+                         </mat-form-field>
+
+                         <mat-form-field appearance="outline" class="w-full">
+                              <mat-label>Select Event Type</mat-label>
+                              <mat-select>
+                                   <mat-option value="cleanup">Beach Cleanup</mat-option>
+                                   <mat-option value="recycling">Recycling Drive</mat-option>
+                                   <mat-option value="workshop">Compost Workshop</mat-option>
+                              </mat-select>
+                         </mat-form-field>
+
+                         <mat-form-field appearance="outline" class="w-full">
+                              <mat-label>Address</mat-label>
+                              <input matInput formControlName="address" />
+                         </mat-form-field>
+
+                         <mat-form-field appearance="outline" class="w-full">
+                              <mat-label>Address 2</mat-label>
+                              <input matInput formControlName="address" />
+                         </mat-form-field>
+                    </div>
+               </div>
+
+          </mat-dialog-content>
+
+
+          <mat-dialog-actions class="w-full">
+
+               <div class="flex justify-between w-full">
+
+                    <button mat-raised-button mat-dialog-close class="bg-teal-800! text-white!">
+                         CANCEL
+                    </button>
+
+                    <button mat-raised-button type="submit" class="bg-red-800! text-white!">
+                         SUBMIT REPORT
+                    </button>
+
+               </div>
+
+          </mat-dialog-actions>
+     </form>
+</div>

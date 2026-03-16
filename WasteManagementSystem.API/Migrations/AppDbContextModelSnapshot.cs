@@ -262,6 +262,35 @@ namespace WasteManagementSystem.API.Migrations
                     b.ToTable("OrganizerRequests");
                 });
 
+            modelBuilder.Entity("WasteManagementSystem.API.Models.PasswordResetOtp", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("ExpiresAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsUsed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("OtpCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("PasswordResetOtps");
+                });
+
             modelBuilder.Entity("WasteManagementSystem.API.Models.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -499,6 +528,17 @@ namespace WasteManagementSystem.API.Migrations
                         .IsRequired();
 
                     b.Navigation("ReviewedByAdmin");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("WasteManagementSystem.API.Models.PasswordResetOtp", b =>
+                {
+                    b.HasOne("WasteManagementSystem.API.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

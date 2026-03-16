@@ -1,0 +1,51 @@
+<div class="p-6 space-y-6">
+
+     <h1 class="text-xl font-semibold text-white-800 font-family-heading">
+          Explore Events Near You
+  </h1>
+     <!-- Search + Filters Form -->
+     <form class="flex flex-col md:flex-row gap-4 items-center justify-between" (submit)="$event.preventDefault()">
+
+          <!-- Search -->
+          <mat-form-field appearance="outline" class="w-full md:w-96">
+               <mat-label>Search events</mat-label>
+
+               <input matInput name="search" placeholder="Search by title or location">
+               <button mat-icon-button matSuffix>
+                    <mat-icon>search</mat-icon>
+               </button>
+          </mat-form-field>
+
+
+          <!-- Filter -->
+          <mat-button-toggle-group name="filter" class="bg-white">
+
+               <mat-button-toggle value="all">All</mat-button-toggle>
+               <mat-button-toggle value="upcoming">Upcoming</mat-button-toggle>
+               <mat-button-toggle value="my">My Events</mat-button-toggle>
+               <mat-button-toggle value="past">Past</mat-button-toggle>
+
+          </mat-button-toggle-group>
+
+     </form>
+
+
+     <!-- Events Grid -->
+     <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+          <app-event-card>
+          </app-event-card>
+          <app-event-card>
+          </app-event-card>
+          <app-event-card>
+          </app-event-card>
+          <app-event-card>
+          </app-event-card>
+          <app-event-card>
+          </app-event-card>
+          <app-event-card>
+          </app-event-card>
+
+     </div>
+
+</div>

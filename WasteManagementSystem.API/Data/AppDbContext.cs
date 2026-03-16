@@ -14,6 +14,7 @@ namespace WasteManagementSystem.API.Data
         public DbSet<WasteReport> WasteReports { get; set; }
         public DbSet<EventAttendance> EventAttendances { get; set; }
         public DbSet<OrganizerRequest> OrganizerRequests { get; set; }
+        public DbSet<PasswordResetOtp> PasswordResetOtps { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -67,11 +68,19 @@ namespace WasteManagementSystem.API.Data
                 .HasForeignKey(or => or.ReviewedByAdminId)
                 .OnDelete(DeleteBehavior.NoAction);
 
+            builder
+                .Entity<PasswordResetOtp>()
+                .HasOne(o => o.User)
+                .WithMany()
+                .HasForeignKey(o => o.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);
             builder.Entity<Event>().HasQueryFilter(e => !e.IsDeleted);
             builder.Entity<WasteReport>().HasQueryFilter(w => !w.IsDeleted);
             builder.Entity<OrganizerRequest>().HasQueryFilter(o => !o.IsDeleted);
             builder.Entity<EventAttendance>().HasQueryFilter(ea => !ea.Event.IsDeleted);
+            builder.Entity<PasswordResetOtp>().HasQueryFilter(o => !o.User.IsDeleted);
         }
     }
 }

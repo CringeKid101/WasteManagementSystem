@@ -1,0 +1,129 @@
+<div class="bg-white rounded-xl shadow p-4">
+
+  <table mat-table [dataSource]="dataSource" class="w-full">
+
+    <!-- Image -->
+    <ng-container matColumnDef="image">
+      <th mat-header-cell *matHeaderCellDef> Image </th>
+
+      <td mat-cell *matCellDef="let report">
+
+        <img
+          [src]="report.image"
+          class="w-16 h-16 rounded object-cover"
+        />
+
+      </td>
+    </ng-container>
+
+
+    <!-- Location -->
+    <ng-container matColumnDef="location">
+      <th mat-header-cell *matHeaderCellDef> Location </th>
+
+      <td mat-cell *matCellDef="let report">
+        {{ report.location }}
+      </td>
+    </ng-container>
+
+
+    <!-- Description -->
+    <ng-container matColumnDef="description">
+      <th mat-header-cell *matHeaderCellDef> Description </th>
+
+      <td mat-cell *matCellDef="let report">
+        {{ report.description }}
+      </td>
+    </ng-container>
+
+
+    <!-- Reporter -->
+    <ng-container matColumnDef="reporter">
+      <th mat-header-cell *matHeaderCellDef> Reporter </th>
+
+      <td mat-cell *matCellDef="let report">
+        {{ report.reporter }}
+      </td>
+    </ng-container>
+
+
+    <!-- Status -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+
+      <td mat-cell *matCellDef="let report">
+
+        <span
+          class="px-2 py-1 rounded text-xs"
+          [ngClass]="{
+            'bg-yellow-100 text-yellow-700': report.status === 'Pending',
+            'bg-green-100 text-green-700': report.status === 'Resolved',
+            'bg-blue-100 text-blue-700': report.status === 'Approved'
+          }"
+        >
+          {{ report.status }}
+        </span>
+
+      </td>
+    </ng-container>
+
+
+    <!-- Date -->
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef> Date </th>
+
+      <td mat-cell *matCellDef="let report">
+        {{ report.date }}
+      </td>
+    </ng-container>
+
+
+    <!-- Actions -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef> Actions </th>
+
+      <td mat-cell *matCellDef="let report">
+
+        <button
+          mat-icon-button
+          color="primary"
+          (click)="openReportDialog(report)"
+        >
+          <mat-icon>visibility</mat-icon>
+        </button>
+
+        <button
+          mat-icon-button
+          color="accent"
+        >
+          <mat-icon>check_circle</mat-icon>
+        </button>
+
+        <button
+          mat-icon-button
+          color="warn"
+        >
+          <mat-icon>cancel</mat-icon>
+        </button>
+
+      </td>
+    </ng-container>
+
+
+    <!-- Header Row -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+    <!-- Data Rows -->
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+
+
+  <!-- Pagination -->
+  <mat-paginator
+    [pageSize]="5"
+    [pageSizeOptions]="[5,10,20]"
+  >
+  </mat-paginator>
+
+</div>

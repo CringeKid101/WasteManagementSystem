@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using WasteManagementSystem.API.Data;
 using WasteManagementSystem.API.Models;
+using WasteManagementSystem.API.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         x => x.UseNetTopologySuite()
     )
 );
+builder.Services.AddScoped<IEmailService, SmtpEmailService>();
 builder
     .Services.AddIdentity<User, IdentityRole<Guid>>()
     .AddEntityFrameworkStores<AppDbContext>()
@@ -40,7 +42,29 @@ builder
                 System.Text.Encoding.UTF8.GetBytes(jwtSettings["Key"])
             ),
         };
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                context.Token = context.Request.Cookies["access_token"];
+                return Task.CompletedTask;
+            }
+        };
     });
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(
+        "AllowAngular",
+        policy =>
+        {
+            policy
+                .WithOrigins(["http://localhost:4200", "https://localhost:4200"])
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        }
+    );
+});
 builder.Services.AddControllers();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -76,7 +100,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseCors("AllowAngular");
 app.MapControllers();
 
 app.Run();

@@ -1,0 +1,25 @@
+<header class="bg-linear-to-r from-slate-900 to-slate-700 shadow px-6 py-4 flex justify-between items-center">
+
+  <h1 class="text-xl font-semibold text-white font-family-heading">
+    Hi Susan, Welcome Back! How do you want to change the world today?
+  </h1>
+
+  <div class="flex items-center gap-4">
+    <button mat-raised-button color="primary" routerLink="/find-events" class="bg-teal-800! text-white!">
+      JOIN EVENT
+    </button>
+    <button mat-raised-button color="primary" (click)="openReportModal()" class="bg-red-800! text-white!">
+      REPORT WASTE
+    </button>
+
+    <span class="text-white">
+      Susan Jacob
+    </span>
+
+    <!-- <button mat-icon-button>
+      <mat-icon>account_circle</mat-icon>
+    </button> -->
+    <img src="https://i.pravatar.cc/40" class="rounded-full">
+  </div>
+
+</header>
