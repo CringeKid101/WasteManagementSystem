@@ -1,4 +1,7 @@
-﻿using Azure.Core;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+using Azure.Core;
 using Google.Apis.Auth;
 using MailKit.Security;
 using Microsoft.AspNetCore.Authorization;
@@ -7,9 +10,6 @@ using Microsoft.AspNetCore.Identity.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 using WasteManagementSystem.API.Data;
 using WasteManagementSystem.API.DTOs;
 using WasteManagementSystem.API.Models;
@@ -112,14 +112,18 @@ namespace WasteManagementSystem.API.Controllers
 
             var token = GenerateJwtToken(user, roles);
 
-            Response.Cookies.Append("access_token", token, new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.Strict,
-                Expires = DateTime.UtcNow.AddMinutes(15)
-            });
-            return Ok("Login Successful.");
+            Response.Cookies.Append(
+                "access_token",
+                token,
+                new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None,
+                    Expires = DateTime.UtcNow.AddMinutes(15),
+                }
+            );
+            return Ok(new { success = true });
         }
 
         /// <summary>
@@ -133,9 +137,45 @@ namespace WasteManagementSystem.API.Controllers
         public IActionResult Me()
         {
             var email = User.FindFirst(ClaimTypes.Email)?.Value;
-            var role = User.FindFirst(ClaimTypes.Role)?.Value;
+            var roles = User.FindFirst(ClaimTypes.Role)?.Value;
+            var givenName = User.FindFirst(ClaimTypes.GivenName)?.Value;
 
-            return Ok(new { email, role });
+            return Ok(
+                new
+                {
+                    email,
+                    roles,
+                    givenName,
+                }
+            );
+        }
+
+        /// <summary>
+        /// Logs out the current user by removing the authentication token from the browser cookies.
+        /// </summary>
+        /// <remarks>Call this method to securely end the user's authenticated session. The authentication
+        /// token is deleted from the cookies, which prevents further access to protected resources until the user logs
+        /// in again. This endpoint should be used in conjunction with authentication mechanisms that rely on
+        /// cookie-based tokens.</remarks>
+        /// <returns>An IActionResult that indicates the result of the logout operation. Returns a success message if the logout
+        /// is completed successfully.</returns>
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            Response.Cookies.Append(
+                "access_token",
+                "",
+                new CookieOptions
+                {
+                    HttpOnly = true,
+                    Secure = true,
+                    SameSite = SameSiteMode.None,
+                    Path = "/",
+                    Expires = DateTime.UtcNow.AddDays(-1),
+                }
+            );
+
+            return Ok(new { message = "Logged out successfully" });
         }
 
         /// <summary>
@@ -156,6 +196,7 @@ namespace WasteManagementSystem.API.Controllers
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Name, user.UserName),
+                new Claim(ClaimTypes.GivenName, user.FirstName + " " + user.LastName),
             };
 
             foreach (var role in roles)

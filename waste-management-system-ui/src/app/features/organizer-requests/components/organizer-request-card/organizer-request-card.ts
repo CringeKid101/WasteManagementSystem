@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
@@ -11,5 +11,6 @@ import {MatButtonModule} from '@angular/material/button';
   styleUrl: './organizer-request-card.css',
 })
 export class OrganizerRequestCard {
+  @Input() request: any;
 
 }

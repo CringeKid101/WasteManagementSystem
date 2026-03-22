@@ -4,12 +4,11 @@
           Accept or Reject Pending Organizer Requests
      </h1>
 
+     <app-organizer-request-filter></app-organizer-request-filter>
      <!-- Events Grid -->
      <div [animate.leave]="['card-vanish']" class="grid md:grid-rows-1 lg:grid-rows-1 gap-6">
-          <app-organizer-request-card></app-organizer-request-card>
-          <app-organizer-request-card></app-organizer-request-card>
-          <app-organizer-request-card></app-organizer-request-card>
-          <app-organizer-request-card></app-organizer-request-card>
-          <app-organizer-request-card></app-organizer-request-card>
+          @for(request of organizerRequests; track request.Id){
+               <app-organizer-request-card [request]="request"></app-organizer-request-card>
+          }
      </div>
 </div>

@@ -1,15 +1,15 @@
-<form class="flex flex-col md:flex-row gap-4 items-center">
+<form [formGroup]="searchForm" (ngSubmit)="submitSearch()" class="flex flex-col md:flex-row gap-4 items-center">
   <!-- Search -->
   <mat-form-field appearance="outline" class="w-full md:w-96">
-    <mat-label>Search reports</mat-label>
+    <mat-label>Search requests</mat-label>
 
-    <button mat-icon-button matSuffix type="button">
+    <button mat-icon-button  matSuffix type="submit">
       <mat-icon>search</mat-icon>
     </button>
 
-    <input matInput placeholder="Search by location or description" name="search" />
+    <input matInput placeholder="Search by requester name" formControlName="search" />
 
-    <button mat-icon-button matSuffix type="button">
+    <button mat-icon-button matSuffix (click)="clearSearch()" type="button">
       <mat-icon>close</mat-icon>
     </button>
   </mat-form-field>
@@ -18,7 +18,7 @@
   <mat-form-field appearance="outline" class="w-full md:w-48">
     <mat-label>Status</mat-label>
 
-    <mat-select name="status">
+    <mat-select formControlName="status">
       <mat-option value="">All</mat-option>
       @for(status of statusOptions; track status){
         <mat-option [value]="status">{{ status }}</mat-option>
@@ -30,17 +30,17 @@
   <mat-form-field appearance="outline" class="w-full md:w-48">
     <mat-label>Waste Type</mat-label>
 
-    <mat-select name="wasteType">
+    <mat-select formControlName="wastetype">
       <mat-option value="">All</mat-option>
       @for(wasteType of wasteTypeOptions; track wasteType){
         <mat-option [value]="wasteType">{{ wasteType }}</mat-option>
       }
     </mat-select>
   </mat-form-field>
-  <!-- Clear Button -->
+
   <div class="mb-6">
     <!-- Apply Button -->
-    <button mat-flat-button class="bg-teal-800! text-white! shadow-2xs" type="submit">
+    <button mat-flat-button (click)="clearFilters()" class="bg-teal-800! text-white! shadow-2xs" type="button">
       Clear Filters
     </button>
   </div>

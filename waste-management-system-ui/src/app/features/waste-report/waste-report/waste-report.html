@@ -1,83 +1,115 @@
-<div class="overflow-hidden">
-     <h2 mat-dialog-title>Report Waste</h2>
+<div class="overflow-hidden bg-[#F6F8F4]">
+  <h2 mat-dialog-title>Report Waste</h2>
 
-     <!-- <div class="grid grid-cols-2 gap-6"> -->
-     <form [formGroup]="reportForm" (ngSubmit)="submitReport()">
-          <mat-dialog-content class="space-y-5">
-               <div class="grid grid-cols-2 gap-6">
-                    <div class="space-y-4">
-                         <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center cursor-pointer">
-                              <mat-icon class="text-gray-500 text-3xl">add_a_photo</mat-icon>
-                              <p class="text-gray-500 text-sm mt-2">Upload waste image</p>
-                         </div>
+  <!-- <div class="grid grid-cols-2 gap-6"> -->
+  <form [formGroup]="reportForm" (ngSubmit)="submitReport()">
+    <mat-dialog-content class="space-y-5">
+      <div class="grid grid-cols-2 gap-6">
+        <div class="space-y-4">
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-600 mb-5"> Upload Image </label>
 
+            <input
+              type="file"
+              accept="image/*"
+              (change)="onFileSelected($event)"
+              class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm  file:bg-teal-800 file:text-white file:cursor-pointer"
+            />
 
-                         <mat-form-field appearance="outline" class="w-full">
-                              <mat-label>Description</mat-label>
-                              <textarea matInput rows="3" formControlName="description"></textarea>
-                         </mat-form-field>
+            <div class="flex flex-row items-center gap-3 w-12 h-12">
+              @if (selectedFiles) {
+                @for (file of selectedFiles; track file) {
+                  <div class="mt-3">
+                    <img
+                      [src]="previewUrls[selectedFiles.indexOf(file)]"
+                      class="w-12 h-12 object-cover rounded-lg border"
+                    />
+                  </div>
+                }
+              }
+            </div>
+          </div>
 
-                         <div class="grid grid-cols-2 gap-4 space-y-0">
-                              <mat-form-field appearance="outline">
-                                   <mat-label>Latitude</mat-label>
-                                   <input matInput formControlName="latitude" />
-                              </mat-form-field>
+          <div id="map" class="h-64 w-full rounded-lg"></div>
+          <div class="flex row items-center justify-between">
+            <p class="text-sm text-gray-600 mt-2">Lat: {{ lat }} | Lng: {{ lng }}</p>
+            <button (click)="useCurrentLocation()">
+              <mat-icon class="text-red-600">location_on</mat-icon> Use Current Location
+            </button>
+          </div>
 
-                              <mat-form-field appearance="outline">
-                                   <mat-label>Longitude</mat-label>
-                                   <input matInput formControlName="longitude" />
-                              </mat-form-field>
-                         </div>
-                    </div>
+          <!-- <div class="grid grid-cols-2 gap-4 space-y-0">
+            <mat-form-field appearance="outline">
+              <mat-label>Latitude</mat-label>
+              <input matInput formControlName="latitude" />
+            </mat-form-field>
 
-                    <div class="space-y-3">
-                         <mat-form-field appearance="outline" class="w-full">
-                              <mat-label>Select Event Type</mat-label>
-                              <mat-select>
-                                   <mat-option value="cleanup">Beach Cleanup</mat-option>
-                                   <mat-option value="recycling">Recycling Drive</mat-option>
-                                   <mat-option value="workshop">Compost Workshop</mat-option>
-                              </mat-select>
-                         </mat-form-field>
+            <mat-form-field appearance="outline">
+              <mat-label>Longitude</mat-label>
+              <input matInput formControlName="longitude" />
+            </mat-form-field>
+          </div> -->
+        </div>
 
-                         <mat-form-field appearance="outline" class="w-full">
-                              <mat-label>Select Event Type</mat-label>
-                              <mat-select>
-                                   <mat-option value="cleanup">Beach Cleanup</mat-option>
-                                   <mat-option value="recycling">Recycling Drive</mat-option>
-                                   <mat-option value="workshop">Compost Workshop</mat-option>
-                              </mat-select>
-                         </mat-form-field>
+        <div class="space-y-3">
+          <!-- Waste Type Filter -->
+          <mat-form-field
+            appearance="outline"
+            floatLabel="auto"
+            hideRequiredMarker="true"
+            class="w-full md:w-full"
+          >
+            <mat-label>Waste Type</mat-label>
 
-                         <mat-form-field appearance="outline" class="w-full">
-                              <mat-label>Address</mat-label>
-                              <input matInput formControlName="address" />
-                         </mat-form-field>
+            <mat-select formControlName="wastetype">
+              <mat-option value="">All</mat-option>
+              @for (wasteType of wasteTypeOptions; track wasteType) {
+                <mat-option [value]="wasteType">{{ wasteType }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
 
-                         <mat-form-field appearance="outline" class="w-full">
-                              <mat-label>Address 2</mat-label>
-                              <input matInput formControlName="address" />
-                         </mat-form-field>
-                    </div>
-               </div>
+          <mat-form-field
+            appearance="outline"
+            floatLabel="auto"
+            hideRequiredMarker="true"
+            class="w-full"
+          >
+            <mat-label>Address</mat-label>
+            <input matInput formControlName="address" />
+          </mat-form-field>
 
-          </mat-dialog-content>
+          <mat-form-field
+            appearance="outline"
+            floatLabel="auto"
+            hideRequiredMarker="true"
+            class="w-full"
+          >
+            <mat-label>Nearby Landmark</mat-label>
+            <input matInput formControlName="address2" />
+          </mat-form-field>
 
+          <mat-form-field
+            appearance="outline"
+            floatLabel="auto"
+            hideRequiredMarker="true"
+            class="w-full"
+          >
+            <mat-label>Description</mat-label>
+            <textarea matInput rows="5" formControlName="description"></textarea>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-dialog-content>
 
-          <mat-dialog-actions class="w-full">
+    <mat-dialog-actions class="w-full">
+      <div class="flex justify-between w-full">
+        <button mat-raised-button mat-dialog-close class="bg-teal-800! text-white!">CANCEL</button>
 
-               <div class="flex justify-between w-full">
-
-                    <button mat-raised-button mat-dialog-close class="bg-teal-800! text-white!">
-                         CANCEL
-                    </button>
-
-                    <button mat-raised-button type="submit" class="bg-red-800! text-white!">
-                         SUBMIT REPORT
-                    </button>
-
-               </div>
-
-          </mat-dialog-actions>
-     </form>
+        <button mat-raised-button type="submit" class="bg-red-800! text-white!">
+          SUBMIT REPORT
+        </button>
+      </div>
+    </mat-dialog-actions>
+  </form>
 </div>

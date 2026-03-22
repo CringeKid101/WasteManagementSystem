@@ -20,8 +20,12 @@ export class AuthApi {
     return this.http.post('/google-login', { token });
   }
 
-  login(data: LoginRequest): Observable<void> {
-    return this.http.post<void>(this.baseUrl + '/login', data, {withCredentials: true});
+  login(data: LoginRequest): Observable<{success: boolean}> {
+    return this.http.post<{success: boolean}>(this.baseUrl + '/login', data, {withCredentials: true});
+  }
+
+  logout() {
+    return this.http.post(this.baseUrl + '/logout', {}, {withCredentials: true});
   }
 
   Me(): Observable<LoginResponse> {

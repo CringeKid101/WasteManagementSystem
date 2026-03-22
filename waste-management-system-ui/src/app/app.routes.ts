@@ -8,6 +8,7 @@ import { Dashboard } from './features/dashboard/dashboard';
 import { EventsPage } from './features/events/pages/events-page/events-page';
 import { OrganizerRequestsPage } from './features/organizer-requests/pages/organizer-requests-page/organizer-requests-page';
 import { ReportsPage } from './features/waste-report/pages/reports-page/reports-page';
+import { roleGuard } from './core/guards/role-guard';
 export const routes: Routes = [
   {
     path: 'login',
@@ -28,9 +29,20 @@ export const routes: Routes = [
     children: [
       { path: 'dashboard', component: Dashboard },
       { path: 'find-events', component: EventsPage },
-      { path: 'organizer-requests', component: OrganizerRequestsPage },
-      { path: 'waste-reports', component: ReportsPage },
-    ]
+      {
+        path: 'organizer-requests',
+        component: OrganizerRequestsPage,
+        // canActivate: [roleGuard],
+        data: { roles: ['Admin'] },
+      },
+
+      {
+        path: 'waste-reports',
+        component: ReportsPage,
+        canActivate: [roleGuard],
+        data: { roles: ['Admin', 'Organizer'] },
+      },
+    ],
   },
   {
     path: '',
@@ -39,6 +51,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'dashboard'
-  }
+    redirectTo: 'dashboard',
+  },
 ];

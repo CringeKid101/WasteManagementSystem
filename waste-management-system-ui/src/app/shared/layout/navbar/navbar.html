@@ -1,7 +1,7 @@
-<header class="bg-linear-to-r from-slate-900 to-slate-700 shadow px-6 py-4 flex justify-between items-center">
+<header class="bg-linear-to-r from-slate-900 to-slate-700 shadow-box px-6 py-4 flex justify-between items-center">
 
-  <h1 class="text-xl font-semibold text-white font-family-heading">
-    Hi Susan, Welcome Back! How do you want to change the world today?
+  <h1 class="text-md font-semibold text-white font-family-heading">
+    Hi {{ user?.givenName }}, Welcome Back! How do you want to change the world today?
   </h1>
 
   <div class="flex items-center gap-4">
@@ -12,8 +12,8 @@
       REPORT WASTE
     </button>
 
-    <span class="text-white">
-      Susan Jacob
+    <span class="text-white text-nowrap">
+      {{ user?.givenName }}
     </span>
 
     <!-- <button mat-icon-button>
