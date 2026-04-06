@@ -26,18 +26,6 @@
     </mat-select>
   </mat-form-field>
 
-  <!-- Waste Type Filter -->
-  <mat-form-field appearance="outline" class="w-full md:w-48">
-    <mat-label>Waste Type</mat-label>
-
-    <mat-select formControlName="wastetype">
-      <mat-option value="">All</mat-option>
-      @for(wasteType of wasteTypeOptions; track wasteType){
-        <mat-option [value]="wasteType">{{ wasteType }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-
   <div class="mb-6">
     <!-- Apply Button -->
     <button mat-flat-button (click)="clearFilters()" class="bg-teal-800! text-white! shadow-2xs" type="button">

@@ -6,8 +6,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatLabel } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { WasteType } from '../../../core/models/waste-type-enum';
-import { RequestStatus } from '../../../core/models/request-status-enum';
+import { WasteType } from '../../../../core/models/waste-type-enum';
+import { RequestStatus } from '../../../../core/models/request-status-enum';
 
 @Component({
   selector: 'app-organizer-request-filter',
@@ -27,7 +27,6 @@ export class OrganizerRequestFilter implements OnInit {
   searchForm!: FormGroup;
 
   statusOptions = Object.values(RequestStatus);
-  wasteTypeOptions = Object.values(WasteType);
 
   ngOnInit(): void {
     this.searchForm = new FormGroup({

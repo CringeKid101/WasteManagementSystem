@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { OrganizerRequestCard } from '../../components/organizer-request-card/organizer-request-card';
-import { OrganizerRequestFilter } from '../../organizer-request-filter/organizer-request-filter';
+import { OrganizerRequestFilter } from '../../components/organizer-request-filter/organizer-request-filter';
 import { OrganizerRequest } from '../../services/organizer-request';
 
 @Component({
@@ -14,6 +14,17 @@ export class OrganizerRequestsPage {
   constructor(private organizerRequest: OrganizerRequest) {}
 
   ngOnInit() {
+    this.organizerRequest.getAll().subscribe({
+      next: (requests) => {
+        this.organizerRequests = requests;
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
+  }
+
+  refreshOrganizerRequests() {
     this.organizerRequest.getAll().subscribe({
       next: (requests) => {
         this.organizerRequests = requests;

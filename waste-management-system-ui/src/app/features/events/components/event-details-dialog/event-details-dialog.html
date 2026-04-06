@@ -1,64 +1,54 @@
-<h2 mat-dialog-title class="text-xl font-semibold">
-     MG Road Cleanup Drive
+<h2 mat-dialog-title class="text-2xl font-semibold text-gray-800">
+  {{ event.title }}
 </h2>
 
-<mat-dialog-content class="space-y-6">
+<mat-dialog-content class="space-y-6 max-h-[75vh] overflow-y-auto">
+  <!-- Map -->
+  <div class="w-full h-64 rounded-xl overflow-hidden border">
+    <div id="eventMap" class="w-full h-full"></div>
+  </div>
 
-     <!-- Event Info -->
-     <div class="space-y-2">
+  <!-- Location -->
+  <div class="flex items-center gap-2 text-gray-600">
+    <span class="font-medium">📍 Location:</span>
+    <span>{{ event.address }}</span>
+  </div>
 
-          <p class="text-gray-600 flex items-center gap-2">
-               <mat-icon class="text-green-600">location_on</mat-icon>
-               MG Road, Bangalore
-          </p>
+  <!-- Date & Time -->
+  <div class="flex gap-6 text-gray-600">
+    <div>
+      <span class="font-medium">📅 Date:</span>
+      {{ event.eventDate | date: 'mediumDate' }}
+    </div>
+    <div>
+      <span class="font-medium">⏰ Time:</span>
+      {{ event.eventDate | date: 'shortTime' }}
+    </div>
+  </div>
 
-          <p class="text-gray-600 flex items-center gap-2">
-               <mat-icon class="text-blue-600">schedule</mat-icon>
-               Saturday 30th March, 2026, 10:30am
-          </p>
+  <!-- Description -->
+  <div>
+    <p class="font-medium text-gray-700 mb-1">📝 Description</p>
+    <p class="text-gray-600 text-sm leading-relaxed">
+      {{ event.description }}
+    </p>
+  </div>
 
-          <p class="text-gray-600 flex items-center gap-2">
-               <mat-icon class="text-purple-600">group</mat-icon>
-               22 volunteers joined
-          </p>
+  <!-- Waste Images -->
+  <div>
+    <p class="font-medium text-gray-700 mb-2">🗑️ Waste Spots</p>
 
-     </div>
-
-     <!-- Description -->
-     <div>
-
-          <h3 class="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-1">
-               Event Description
-          </h3>
-
-          <p class="text-gray-700">
-               Join us for a cleanup drive on MG Road!
-               Let's come together to make our city cleaner and greener.
-               Volunteers will be provided with gloves, bags, and refreshments.
-               All are welcome to participate and make a positive impact on our environment.
-          </p>
-
-     </div>
-
-     <!-- Optional Map Placeholder -->
-     <div class="h-48 rounded-lg bg-gray-100 flex items-center justify-center text-gray-400">
-          Map preview
-     </div>
-
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+      @for(wasteImage of event.wasteImages; track wasteImage) {
+        <img
+          [src]="wasteImage"
+          class="w-full h-32 object-cover rounded-lg border hover:scale-105 transition"
+        />
+      }
+    </div>
+  </div>
 </mat-dialog-content>
 
-<!-- Dialog Buttons -->
-<mat-dialog-actions class="flex justify-between w-full pt-4">
-
-     <button mat-stroked-button mat-dialog-close>
-          Close
-     </button>
-
-     <button mat-raised-button color="primary"> Join Event
-     </button>
-
-     <button mat-raised-button disabled color="primary">
-          Joined ✓
-     </button>
-
+<mat-dialog-actions class="flex justify-end pt-4">
+  <button mat-raised-button mat-dialog-close class="bg-gray-800! text-white!">CLOSE</button>
 </mat-dialog-actions>

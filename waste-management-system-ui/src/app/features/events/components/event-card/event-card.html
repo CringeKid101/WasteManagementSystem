@@ -2,20 +2,21 @@
 
      <div class="flex justify-between">
           <h3 class="font-semibold text-lg">
-               MG Road Cleanup Drive
+               {{event?.title}}
           </h3>
 
-          <mat-icon class="text-green-600">
-               event
-          </mat-icon>
+          <button mat-icon-button (click)="openEventDetails()" matTooltip="Click for Event Details">
+               <mat-icon class="text-gray-600 cursor-pointer">info</mat-icon>
+
+          </button>
      </div>
 
      <p class="text-sm text-gray-500 mt-1">
-          📍 MG Road, Bangalore
+          📍 {{event?.address}}
      </p>
 
      <p class="text-sm text-gray-500">
-          🕒 Saturday 30th March, 2026, 10:30am
+          🕒 {{event?.eventDateObject | date:'fullDate'}}, {{event?.eventDateObject | date:'shortTime'}}
      </p>
 
      <!-- <p class="text-sm mt-3 text-gray-600">
@@ -29,22 +30,19 @@
           <div class="flex items-center gap-2 bg-blue-100 p-3 rounded-md">
                <mat-icon class="text-blue-600">group</mat-icon>
                <span class="text-sm text-blue-600 font-semibold whitespace-nowrap">
-                    22 joined
+                    {{event.totalVolunteers ?? 0}} joined
                </span>
           </div>
 
 
-          @if(!joinedEvent()){
-          <button mat-raised-button (click)="joined()" class="bg-teal-800! text-white!">Join
-          </button>
-          }
-
-
-          @if(joinedEvent()){
-          <button mat-stroked-button (click)="joined()" class="bg-red-600! text-white!">
-               Cancel
-          </button>
-          }
+          <button
+  (click)="handleEvent()"
+  [disabled]="event.loading"
+  class="px-4 py-2 rounded-lg text-white"
+  [ngClass]="event.isJoined ? 'bg-red-600' : 'bg-teal-800'"
+>
+  {{ event.isJoined ? 'Leave' : 'Join' }}
+</button>
 
      </div>
 

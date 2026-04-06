@@ -32,8 +32,8 @@ export class AuthApi {
     return this.http.get<LoginResponse>(this.baseUrl + '/me', {withCredentials: true});
   }
 
-  register(data: RegisterRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(this.baseUrl + '/register', data, {withCredentials: true});
+  register(data: RegisterRequest): Observable<{success: boolean}> {
+    return this.http.post<{success: boolean}>(this.baseUrl + '/register', data, {withCredentials: true});
   }
 
   requestOtp(otpRequest: ForgotPasswordRequest): Observable<void> {

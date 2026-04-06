@@ -13,8 +13,8 @@ using WasteManagementSystem.API.Data;
 namespace WasteManagementSystem.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260313110617_passwordresetotp_table_created")]
-    partial class passwordresetotp_table_created
+    [Migration("20260404021108_EventAttendance_Updated")]
+    partial class EventAttendance_Updated
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -176,9 +176,16 @@ namespace WasteManagementSystem.API.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
+                    b.Property<Point>("Location")
+                        .IsRequired()
+                        .HasColumnType("geography");
+
                     b.Property<string>("LocationName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("MaxParticipants")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("OrganizerId")
                         .HasColumnType("uniqueidentifier");
@@ -186,6 +193,9 @@ namespace WasteManagementSystem.API.Migrations
                     b.Property<string>("QrCodeValue")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -207,11 +217,17 @@ namespace WasteManagementSystem.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("AttendedAt")
+                    b.Property<DateTime?>("AttendedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid>("EventId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsAttended")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("JoinedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -226,6 +242,30 @@ namespace WasteManagementSystem.API.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("EventAttendances");
+                });
+
+            modelBuilder.Entity("WasteManagementSystem.API.Models.EventImage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("EventId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublicId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EventId");
+
+                    b.ToTable("EventImages");
                 });
 
             modelBuilder.Entity("WasteManagementSystem.API.Models.OrganizerRequest", b =>
@@ -389,6 +429,10 @@ namespace WasteManagementSystem.API.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid?>("ApprovedById")
                         .HasColumnType("uniqueidentifier");
 
@@ -402,12 +446,12 @@ namespace WasteManagementSystem.API.Migrations
                     b.Property<Guid?>("EventId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Landmark")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Point>("Location")
                         .IsRequired()
@@ -434,6 +478,30 @@ namespace WasteManagementSystem.API.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("WasteReports");
+                });
+
+            modelBuilder.Entity("WasteManagementSystem.API.Models.WasteReportImage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PublicId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("WasteReportId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WasteReportId");
+
+                    b.ToTable("WasteReportImages");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -517,6 +585,17 @@ namespace WasteManagementSystem.API.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("WasteManagementSystem.API.Models.EventImage", b =>
+                {
+                    b.HasOne("WasteManagementSystem.API.Models.Event", "Event")
+                        .WithMany()
+                        .HasForeignKey("EventId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Event");
+                });
+
             modelBuilder.Entity("WasteManagementSystem.API.Models.OrganizerRequest", b =>
                 {
                     b.HasOne("WasteManagementSystem.API.Models.User", "ReviewedByAdmin")
@@ -571,6 +650,17 @@ namespace WasteManagementSystem.API.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("WasteManagementSystem.API.Models.WasteReportImage", b =>
+                {
+                    b.HasOne("WasteManagementSystem.API.Models.WasteReport", "WasteReport")
+                        .WithMany("Images")
+                        .HasForeignKey("WasteReportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("WasteReport");
+                });
+
             modelBuilder.Entity("WasteManagementSystem.API.Models.Event", b =>
                 {
                     b.Navigation("Attendances");
@@ -587,6 +677,11 @@ namespace WasteManagementSystem.API.Migrations
                     b.Navigation("OrganizerRequests");
 
                     b.Navigation("WasteReports");
+                });
+
+            modelBuilder.Entity("WasteManagementSystem.API.Models.WasteReport", b =>
+                {
+                    b.Navigation("Images");
                 });
 #pragma warning restore 612, 618
         }

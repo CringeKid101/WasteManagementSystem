@@ -5,4 +5,5 @@ export enum WasteType {
   METAL = 'Metal',
   ORGANIC = 'Organic',
   ELECTRONIC = 'Electronic',
+  OTHER = 'Other',
 }

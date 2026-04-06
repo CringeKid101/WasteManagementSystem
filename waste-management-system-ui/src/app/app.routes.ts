@@ -25,14 +25,14 @@ export const routes: Routes = [
   {
     path: '',
     component: DashboardLayout,
-    // canActivate: [authGuard],
+    canActivate: [authGuard],
     children: [
-      { path: 'dashboard', component: Dashboard },
+      { path: 'dashboard', component: Dashboard, canActivate: [roleGuard], data: { roles: ['Admin'] } },
       { path: 'find-events', component: EventsPage },
       {
         path: 'organizer-requests',
         component: OrganizerRequestsPage,
-        // canActivate: [roleGuard],
+        canActivate: [roleGuard],
         data: { roles: ['Admin'] },
       },
 

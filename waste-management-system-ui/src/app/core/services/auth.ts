@@ -4,12 +4,14 @@ import { AuthApi } from './auth-api';
 import { BehaviorSubject } from 'rxjs';
 import { tap, switchMap } from 'rxjs/operators';
 import { LoginResponse } from '../models/login-response.model';
+import { of } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
 export class Auth {
   private userSubject = new BehaviorSubject<LoginResponse | null>(null);
   user$ = this.userSubject.asObservable();
+  private hasLoaded = false;
 
   constructor(
     private authApi: AuthApi,
@@ -17,9 +19,13 @@ export class Auth {
   ) {}
 
   loadUser() {
+    if (this.hasLoaded && this.userSubject.value) {
+    return of(this.userSubject.value);
+  }
     return this.authApi.Me().pipe(
       tap((user) => {
         this.userSubject.next(user);
+        this.hasLoaded = true;
         console.log('User loaded:', user);
       }),
     );
@@ -37,7 +43,13 @@ export class Auth {
         return this.loadUser();
       }),
       tap({
-        next: () => this.router.navigate(['/dashboard']),
+        next: () => {
+          if(this.userSubject.value?.roles.includes('Admin')) {
+            this.router.navigate(['/dashboard']);
+          } else {
+            this.router.navigate(['/find-events']);
+          }
+        },
         error: (err) => console.error('Failed to load user after login:', err),
       }),
     );

@@ -1,0 +1,34 @@
+<h2 mat-dialog-title class="text-xl font-semibold">Request Organizer Role</h2>
+
+<form [formGroup]="organizerForm" (ngSubmit)="requestOrganizerRole()" class="space-y-4">
+  <mat-dialog-content>
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>Reason</mat-label>
+      <textarea matInput formControlName="reason"></textarea>
+      @if (
+        organizerForm.controls['reason'].touched && organizerForm.controls['reason'].hasError('required')
+      ) {
+        <mat-error> Reason is required. </mat-error>
+      }
+    </mat-form-field>
+    <!-- <div class="flex items-center">
+      <p class="text-lg">Are you sure you want to request the organizer role?</p>
+    </div> -->
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="w-full">
+    <div class="flex justify-between w-full">
+      <button mat-raised-button mat-dialog-close class="bg-red-600! text-white! cursor-pointer">
+        CANCEL
+      </button>
+
+      <button
+        mat-raised-button
+        type="submit"
+        class="bg-teal-800! text-white! cursor-pointer"
+      >
+        SUBMIT REQUEST
+      </button>
+    </div>
+  </mat-dialog-actions>
+</form>

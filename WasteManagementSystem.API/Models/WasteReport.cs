@@ -7,9 +7,10 @@ namespace WasteManagementSystem.API.Models
     {
         public Guid Id { get; set; }
         public string Description { get; set; }
-        public string ImageUrl { get; set; }
         public WasteType WasteType { get; set; }
         public Point Location { get; set; }
+        public string Address { get; set; }
+        public string Landmark { get; set; }
         public ReportStatus Status { get; set; }
         public Guid UserId { get; set; }
         public User User { get; set; }
@@ -20,5 +21,6 @@ namespace WasteManagementSystem.API.Models
         public DateTime? UpdatedAt { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public bool IsDeleted { get; set; } = false;
+        public List<WasteReportImage> Images { get; set; } = new();
     }
 }

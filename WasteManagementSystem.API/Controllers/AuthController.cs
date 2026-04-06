@@ -83,7 +83,7 @@ namespace WasteManagementSystem.API.Controllers
 
             await _userManager.AddToRoleAsync(user, "User");
 
-            return Ok("Registration Successful.");
+            return Ok(new { success = true });
         }
 
         /// <summary>

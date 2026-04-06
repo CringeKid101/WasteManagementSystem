@@ -18,7 +18,7 @@
 
 
           <!-- Filter -->
-          <mat-button-toggle-group name="filter" class="bg-white">
+          <mat-button-toggle-group name="filter" class="bg-teal-800 text-white rounded-lg">
 
                <mat-button-toggle value="all">All</mat-button-toggle>
                <mat-button-toggle value="upcoming">Upcoming</mat-button-toggle>
@@ -33,19 +33,10 @@
      <!-- Events Grid -->
      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-          <app-event-card>
-          </app-event-card>
-          <app-event-card>
-          </app-event-card>
-          <app-event-card>
-          </app-event-card>
-          <app-event-card>
-          </app-event-card>
-          <app-event-card>
-          </app-event-card>
-          <app-event-card>
-          </app-event-card>
-
+          @for(event of events; track event.eventId) {
+               <app-event-card [event]="event">
+               </app-event-card>
+          }
      </div>
 
 </div>
