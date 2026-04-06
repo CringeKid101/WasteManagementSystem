@@ -20,16 +20,20 @@ export class AuthApi {
     return this.http.post('/google-login', { token });
   }
 
-  login(data: LoginRequest): Observable<void> {
-    return this.http.post<void>(this.baseUrl + '/login', data, {withCredentials: true});
+  login(data: LoginRequest): Observable<{success: boolean}> {
+    return this.http.post<{success: boolean}>(this.baseUrl + '/login', data, {withCredentials: true});
+  }
+
+  logout() {
+    return this.http.post(this.baseUrl + '/logout', {}, {withCredentials: true});
   }
 
   Me(): Observable<LoginResponse> {
     return this.http.get<LoginResponse>(this.baseUrl + '/me', {withCredentials: true});
   }
 
-  register(data: RegisterRequest): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(this.baseUrl + '/register', data, {withCredentials: true});
+  register(data: RegisterRequest): Observable<{success: boolean}> {
+    return this.http.post<{success: boolean}>(this.baseUrl + '/register', data, {withCredentials: true});
   }
 
   requestOtp(otpRequest: ForgotPasswordRequest): Observable<void> {

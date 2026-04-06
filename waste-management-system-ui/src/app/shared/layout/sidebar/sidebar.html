@@ -1,77 +1,135 @@
-<aside 
-  [class.w-64]="!isCollapsed" 
-  [class.w-20]="isCollapsed"
-  class="bg-slate-900 text-white flex h-screen flex-col transition-all duration-300 border-r border-slate-800 shrink-0">
-
+<aside
+  [class.w-64]="!isCollapsed"
+  [class.w-22]="isCollapsed"
+  class="bg-slate-900 text-white flex h-screen flex-col transition-all duration-300 border-slate-800 shrink-0"
+>
   <!-- Header & Toggle -->
   <div class="px-6 py-6 flex items-center justify-between overflow-hidden">
-
-    @if(!isCollapsed){
-        <span class="text-2xl font-bold tracking-tight text-white cursor-pointer">WasteWise</span>
-      }
-    <button (click)="toggleSidebar()" class="p-1 hover:bg-slate-800 rounded-md text-amber-500 transition-colors">
+    @if (!isCollapsed) {
+      <span class="text-2xl inline-flex font-bold tracking-tight text-white cursor-pointer"
+        >WasteWise&nbsp;<svg
+          xmlns="http://www.w3.org/2000/svg"
+          height="1.2em"
+          width="1.2em"
+          viewBox="0 0 640 640"
+        >
+          <!--!Font Awesome Free v7.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2026 Fonticons, Inc.-->
+          <path
+            fill="rgb(241, 246, 244)"
+            d="M535.3 70.7C541.7 64.6 551 62.4 559.6 65.2C569.4 68.5 576 77.7 576 88L576 274.9C576 406.1 467.9 512 337.2 512C260.2 512 193.8 462.5 169.7 393.3C134.3 424.1 112 469.4 112 520C112 533.3 101.3 544 88 544C74.7 544 64 533.3 64 520C64 445.1 102.2 379.1 160.1 340.3C195.4 316.7 237.5 304 280 304L360 304C373.3 304 384 293.3 384 280C384 266.7 373.3 256 360 256L280 256C240.3 256 202.7 264.8 169 280.5C192.3 210.5 258.2 160 336 160C402.4 160 451.8 137.9 484.7 116C503.9 103.2 520.2 87.9 535.4 70.7z"
+          />
+        </svg>
+      </span>
+    }
+    <button
+      (click)="toggleSidebar()"
+      class="p-1 hover:bg-slate-800 rounded-md text-amber-500 transition-colors"
+    >
       <!-- Simple Toggle Icon -->
       <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16"
+        />
       </svg>
     </button>
   </div>
 
   <!-- Nav Links -->
   <nav class="flex-1 px-4 space-y-2 overflow-y-auto overflow-x-hidden">
-
     <!-- Dashboard Link -->
-    <a routerLink="/dashboard" routerLinkActive="bg-teal-500/10 text-teal-400 border-l-2 border-amber-500" 
-       class="flex items-center px-4 py-3 text-slate-400 rounded transition-all hover:bg-teal-500/10 hover:text-teal-400 group cursor-pointer">
-      <svg class="w-5 h-5 min-w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-      @if(!isCollapsed){
-        <span class="ml-4 whitespace-nowrap">Dashboard</span>
-      }
-    </a>
+    @if (user.roles === 'Admin') {
+      <a
+        routerLink="/dashboard"
+        routerLinkActive="bg-teal-500/10 text-teal-400 border-l-2 border-amber-500"
+        class="flex items-center px-4 py-3 text-slate-400 rounded transition-all hover:bg-teal-500/10 hover:text-teal-400 group cursor-pointer"
+      >
+        <svg class="w-5 h-5 min-w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+          />
+        </svg>
+        @if (!isCollapsed) {
+          <span class="ml-4 whitespace-nowrap">Dashboard</span>
+        }
+      </a>
+    }
 
     <!-- Discover Events -->
-    <a routerLink="/find-events" routerLinkActive="bg-teal-500/10 text-teal-400 border-l-2 border-amber-500"
-       class="flex items-center px-4 py-3 text-slate-400 rounded transition-all hover:bg-teal-500/10 hover:text-teal-400 group cursor-pointer">
-      <svg class="w-5 h-5 min-w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-      @if(!isCollapsed){
+    <a
+      routerLink="/find-events"
+      routerLinkActive="bg-teal-500/10 text-teal-400 border-l-2 border-amber-500"
+      class="flex items-center px-4 py-3 text-slate-400 rounded transition-all hover:bg-teal-500/10 hover:text-teal-400 group cursor-pointer"
+    >
+      <svg class="w-5 h-5 min-w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+        />
+      </svg>
+      @if (!isCollapsed) {
         <span class="ml-4 whitespace-nowrap">Discover Events</span>
       }
     </a>
 
-    <!-- Create Events -->
-    <!-- <a routerLink="/create-event" routerLinkActive="bg-teal-500/10 text-teal-400 border-l-2 border-amber-500"
-       class="flex items-center px-4 py-3 text-slate-400 rounded transition-all hover:bg-teal-500/10 hover:text-teal-400 group cursor-pointer">
-      <svg class="w-5 h-5 min-w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-        @if(!isCollapsed){
-        <span class="ml-4 whitespace-nowrap">Create Events</span>
-      }
-    </a> -->
+    @if (user && (user.roles === 'Admin' || user.roles === 'Organizer')) {
+      <!-- Report Waste -->
+      <a
+        routerLink="/waste-reports"
+        routerLinkActive="bg-teal-500/10 text-teal-400 border-l-2 border-amber-500"
+        class="flex items-center px-4 py-3 text-slate-400 rounded transition-all hover:bg-teal-500/10 hover:text-teal-400 group cursor-pointer"
+      >
+        <svg class="w-5 h-5 min-w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+          />
+        </svg>
+        @if (!isCollapsed) {
+          <span class="ml-4 whitespace-nowrap">Waste Reports</span>
+        }
+      </a>
+      <!-- Organizer Requests -->
+    }
 
-    <!-- Report Waste -->
-    <a routerLink="/waste-reports" routerLinkActive="bg-teal-500/10 text-teal-400 border-l-2 border-amber-500"
-       class="flex items-center px-4 py-3 text-slate-400 rounded transition-all hover:bg-teal-500/10 hover:text-teal-400 group cursor-pointer">
-      <svg class="w-5 h-5 min-w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-      @if(!isCollapsed){
-        <span class="ml-4 whitespace-nowrap">Waste Reports</span>
-      }
-    </a>
+    @if (user.roles === 'Admin' || user.roles === 'Organizer') {
+      <a
+        routerLink="/organizer-requests"
+        routerLinkActive="bg-teal-500/10 text-teal-400 border-l-2 border-amber-500"
+        class="flex items-center px-4 py-3 text-slate-400 rounded transition-all hover:bg-teal-500/10 hover:text-teal-400 group cursor-pointer"
+      >
+        <svg class="w-5 h-5 min-w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
+          />
+        </svg>
+        @if (!isCollapsed) {
+          <span class="ml-4 whitespace-nowrap">Organizer Requests</span>
+        }
+      </a>
+    }
 
-    <!-- Organizer Requests -->
-    <a routerLink="/organizer-requests" routerLinkActive="bg-teal-500/10 text-teal-400 border-l-2 border-amber-500"
-       class="flex items-center px-4 py-3 text-slate-400 rounded transition-all hover:bg-teal-500/10 hover:text-teal-400 group cursor-pointer">
-      <svg class="w-5 h-5 min-w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-      @if(!isCollapsed){
-        <span class="ml-4 whitespace-nowrap">Organizer Requests</span>
-      }
-    </a>
-
-    <a routerLink="/login" routerLinkActive="bg-teal-500/10 text-teal-400 border-l-2 border-amber-500"
-       class="flex items-center px-4 py-3 text-slate-400 rounded transition-all hover:bg-teal-500/10 hover:text-teal-400 group cursor-pointer">
+    <a
+      (click)="logout()"
+      routerLinkActive="bg-teal-500/10 text-teal-400 border-l-2 border-amber-500"
+      class="flex items-center px-4 py-3 text-slate-400 rounded transition-all hover:bg-teal-500/10 hover:text-teal-400 group cursor-pointer"
+    >
       <mat-icon class="text-red-600">logout</mat-icon>
-      @if(!isCollapsed){
+      @if (!isCollapsed) {
         <span class="ml-4 whitespace-nowrap">Logout</span>
       }
     </a>
-
   </nav>
 </aside>

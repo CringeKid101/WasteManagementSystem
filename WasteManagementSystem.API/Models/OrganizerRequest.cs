@@ -8,7 +8,7 @@ namespace WasteManagementSystem.API.Models
         public Guid UserId { get; set; }
         public User User { get; set; }
         public string Reason { get; set; }
-        public RequestStatus Status { get; set; } // Pending, Approved, Rejected
+        public RequestStatus Status { get; set; }
         public Guid? ReviewedByAdminId { get; set; }
         public User? ReviewedByAdmin { get; set; }
         public DateTime CreatedAt { get; set; }

@@ -173,7 +173,10 @@ namespace WasteManagementSystem.API.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     EventDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     LocationName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Location = table.Column<Point>(type: "geography", nullable: false),
                     QrCodeValue = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MaxParticipants = table.Column<int>(type: "int", nullable: true),
+                    Status = table.Column<int>(type: "int", nullable: false),
                     OrganizerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -219,6 +222,28 @@ namespace WasteManagementSystem.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PasswordResetOtps",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    OtpCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ExpiresAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsUsed = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PasswordResetOtps", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PasswordResetOtps_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "EventAttendances",
                 columns: table => new
                 {
@@ -246,14 +271,35 @@ namespace WasteManagementSystem.API.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EventImages",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EventImages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_EventImages_Events_EventId",
+                        column: x => x.EventId,
+                        principalTable: "Events",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "WasteReports",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     WasteType = table.Column<int>(type: "int", nullable: false),
                     Location = table.Column<Point>(type: "geography", nullable: false),
+                    Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Landmark = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Status = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     EventId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
@@ -283,6 +329,26 @@ namespace WasteManagementSystem.API.Migrations
                         principalTable: "Events",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "WasteReportImages",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    WasteReportId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    ImageUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_WasteReportImages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_WasteReportImages_WasteReports_WasteReportId",
+                        column: x => x.WasteReportId,
+                        principalTable: "WasteReports",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -335,6 +401,11 @@ namespace WasteManagementSystem.API.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_EventImages_EventId",
+                table: "EventImages",
+                column: "EventId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Events_OrganizerId",
                 table: "Events",
                 column: "OrganizerId");
@@ -348,6 +419,16 @@ namespace WasteManagementSystem.API.Migrations
                 name: "IX_OrganizerRequests_UserId",
                 table: "OrganizerRequests",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PasswordResetOtps_UserId",
+                table: "PasswordResetOtps",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_WasteReportImages_WasteReportId",
+                table: "WasteReportImages",
+                column: "WasteReportId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_WasteReports_ApprovedById",
@@ -387,13 +468,22 @@ namespace WasteManagementSystem.API.Migrations
                 name: "EventAttendances");
 
             migrationBuilder.DropTable(
+                name: "EventImages");
+
+            migrationBuilder.DropTable(
                 name: "OrganizerRequests");
 
             migrationBuilder.DropTable(
-                name: "WasteReports");
+                name: "PasswordResetOtps");
+
+            migrationBuilder.DropTable(
+                name: "WasteReportImages");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "WasteReports");
 
             migrationBuilder.DropTable(
                 name: "Events");

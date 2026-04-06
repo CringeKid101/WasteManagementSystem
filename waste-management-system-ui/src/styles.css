@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
 
 @theme {
    /* Overrides the default 'font-sans' utility */
@@ -90,4 +91,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .card-vanish {
   animation: vanish 0.5s ease-out forwards;
+}
+
+
+.snackbar-success {
+  background-color: #16a34a !important;
+  color: white;
+}
+
+.snackbar-error {
+  background-color: #dc2626 !important;
+  color: white;
 }

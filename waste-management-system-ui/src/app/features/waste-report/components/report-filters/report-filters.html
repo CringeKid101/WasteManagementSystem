@@ -1,68 +1,57 @@
-<form class="flex flex-col md:flex-row gap-4 items-center">
+<form
+  [formGroup]="reportFilterForm"
+  (ngSubmit)="emitFilters()"
+  class="flex flex-col md:flex-row gap-4 items-center"
+>
+  <!-- Search -->
+  <mat-form-field appearance="outline" class="w-full md:w-96">
+    <mat-label>Search reports</mat-label>
 
-     <!-- Search -->
-     <mat-form-field appearance="outline" class="w-full md:w-96">
+    <button mat-icon-button matSuffix type="submit">
+      <mat-icon>search</mat-icon>
+    </button>
 
-          <mat-label>Search reports</mat-label>
+    <input
+      matInput
+      (input)="onSearchChange($event.target.value)"
+      placeholder="Search by location or description"
+      formControlName="searchText"
+    />
+  </mat-form-field>
 
-          <button mat-icon-button matSuffix type="button">
+  <!-- Status Filter -->
+  <mat-form-field appearance="outline" class="w-full md:w-48">
+    <mat-label>Status</mat-label>
 
-               <mat-icon>search</mat-icon>
+    <mat-select (selectionChange)="emitFilters()" formControlName="reportStatus">
+      <mat-option value="">All</mat-option>
+      @for (status of statusOptions; track status) {
+        <mat-option [value]="status">{{ status }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
 
-          </button>
+  <!-- Waste Type Filter -->
+  <mat-form-field appearance="outline" class="w-full md:w-48">
+    <mat-label>Waste Type</mat-label>
 
-          <input matInput placeholder="Search by location or description" name="search" />
-
-          <button mat-icon-button matSuffix type="button">
-
-               <mat-icon>close</mat-icon>
-
-          </button>
-
-     </mat-form-field>
-
-
-     <!-- Status Filter -->
-     <mat-form-field appearance="outline" class="w-full md:w-48">
-
-          <mat-label>Status</mat-label>
-
-          <mat-select name="status">
-
-               <mat-option value="">All</mat-option>
-               <mat-option value="pending">Pending</mat-option>
-               <mat-option value="approved">Approved</mat-option>
-               <mat-option value="resolved">Resolved</mat-option>
-               <mat-option value="rejected">Rejected</mat-option>
-
-          </mat-select>
-
-     </mat-form-field>
-
-
-     <!-- Waste Type Filter -->
-     <mat-form-field appearance="outline" class="w-full md:w-48">
-
-          <mat-label>Waste Type</mat-label>
-
-          <mat-select name="wasteType">
-
-               <mat-option value="">All</mat-option>
-               <mat-option value="plastic">Plastic</mat-option>
-               <mat-option value="organic">Organic</mat-option>
-               <mat-option value="construction">Construction</mat-option>
-               <mat-option value="mixed">Mixed</mat-option>
-
-          </mat-select>
-
-     </mat-form-field>
-
-
-     <!-- Clear Button -->
-     <button mat-stroked-button class="bg-teal-700! text-white! border-teal-800! shadow-2xs" type="button">
-
-          Clear Filters
-
-     </button>
-
+    <mat-select (selectionChange)="emitFilters()" formControlName="wasteType">
+      <mat-option value="">All</mat-option>
+      @for (wasteType of wasteTypeOptions; track wasteType) {
+        <mat-option [value]="wasteType">{{ wasteType }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+  <!-- Clear Button -->
+  <div class="mb-6">
+    <!-- Apply Button -->
+    <button
+      type="button"
+      (click)="clearFilter()"
+      mat-flat-button
+      class="bg-teal-800! text-white! shadow-2xs"
+    >
+      Clear Filters
+    </button>
+  </div>
 </form>

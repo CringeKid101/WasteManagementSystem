@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Reflection.Emit;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using WasteManagementSystem.API.Models;
@@ -15,6 +16,8 @@ namespace WasteManagementSystem.API.Data
         public DbSet<EventAttendance> EventAttendances { get; set; }
         public DbSet<OrganizerRequest> OrganizerRequests { get; set; }
         public DbSet<PasswordResetOtp> PasswordResetOtps { get; set; }
+        public DbSet<WasteReportImage> WasteReportImages { get; set; }
+        public DbSet<EventImage> EventImages { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -75,12 +78,21 @@ namespace WasteManagementSystem.API.Data
                 .HasForeignKey(o => o.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder
+                .Entity<WasteReport>()
+                .HasMany(w => w.Images)
+                .WithOne(i => i.WasteReport)
+                .HasForeignKey(i => i.WasteReportId)
+                .OnDelete(DeleteBehavior.Cascade);
+
             builder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);
             builder.Entity<Event>().HasQueryFilter(e => !e.IsDeleted);
             builder.Entity<WasteReport>().HasQueryFilter(w => !w.IsDeleted);
             builder.Entity<OrganizerRequest>().HasQueryFilter(o => !o.IsDeleted);
             builder.Entity<EventAttendance>().HasQueryFilter(ea => !ea.Event.IsDeleted);
             builder.Entity<PasswordResetOtp>().HasQueryFilter(o => !o.User.IsDeleted);
+            builder.Entity<WasteReportImage>().HasQueryFilter(i => !i.WasteReport.IsDeleted);
+            builder.Entity<EventImage>().HasQueryFilter(e => e.Event.IsDeleted);
         }
     }
 }

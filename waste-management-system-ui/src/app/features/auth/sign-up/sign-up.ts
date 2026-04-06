@@ -9,6 +9,8 @@ import { NonNullableFormBuilder, Validators, ValidationErrors, FormGroup } from 
 import { AuthApi } from '../../../core/services/auth-api';
 import { RegisterRequest } from '../../../core/models/register-request.model';
 import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-sign-up',
   imports: [
@@ -30,6 +32,7 @@ export class SignUp implements OnInit {
   constructor(
     private fb: NonNullableFormBuilder,
     private authApi: AuthApi,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -93,6 +96,7 @@ export class SignUp implements OnInit {
     this.authApi.register(data).subscribe({
       next: (response) => {
         console.log('Registration successful', response);
+        this.router.navigate(['/login']);
       },
       error: (error) => {
         console.error('Registration failed', error);

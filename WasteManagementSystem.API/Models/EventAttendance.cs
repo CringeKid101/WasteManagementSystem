@@ -7,7 +7,9 @@
         public Event Event { get; set; }
         public Guid UserId { get; set; }
         public User User { get; set; }
-        public DateTime AttendedAt { get; set; } = DateTime.UtcNow;
+        public DateTime JoinedAt { get; set; } = DateTime.UtcNow;
+        public bool IsAttended { get; set; } = false;
+        public DateTime? AttendedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
     }
 }

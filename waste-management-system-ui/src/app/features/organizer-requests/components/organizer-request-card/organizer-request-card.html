@@ -1,19 +1,71 @@
-<mat-card class="p-4 hover:shadow-lg transition bg-white!">
-     <div class="flex justify-between">
-          <div class="flex justify-start items-center gap-4">
-               <img src="https://i.pravatar.cc/40" class="rounded-full">
-               <h3 class="font-semibold text-lg">
-                    John Doe
-               </h3>
-          </div>
+<mat-card class="p-4 hover:shadow-lg! transition bg-white!">
+  <div class="flex justify-between font-family-sans">
+    <div class="flex items-center gap-4">
+      <!-- Avatar -->
+      <img src="https://i.pravatar.cc/100" class="w-12 h-12 rounded-full object-cover" />
 
-          <div class="flex justify-between items-center mt-4 gap-4">
-               <button mat-icon-button disableRipple class="bg-white! text-teal-800! rounded-sm">
-                    <mat-icon>check</mat-icon>
-               </button>
-               <button mat-icon-button disableRipple class="bg-white! text-red-600! rounded-sm">
-                    <mat-icon>close</mat-icon>
-               </button>
-          </div>
-     </div>
+      <!-- User Info -->
+      <div>
+        <h3 class="font-semibold text-lg text-gray-800">{{ request?.userName }}</h3>
+
+        <p class="text-sm text-gray-500">{{ request?.email }}</p>
+
+        <p class="text-xs text-gray-400 mt-1">Created: {{ request?.createdAt | date:'dd/MM/yyyy HH:mm' }}</p>
+
+        <div class="flex gap-4 mt-2 text-sm text-gray-600">
+          <span
+            >Events Attended: <b>{{ request?.eventsAttended }}</b></span
+          >
+          <span
+            >Reports: <b>{{ request?.reportsSubmitted }}</b></span
+          >
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <span>
+        Reason: {{ request?.reason }}
+      </span>
+    </div>
+
+    <div class="flex flex-col items-end">
+      <div class="flex items-center">
+        <span
+          class="px-3 py-1 text-xs font-semibold rounded-full"
+          [ngClass]="{
+            'bg-yellow-100 text-yellow-700': request?.status === 'Pending',
+            'bg-green-100 text-green-700': request?.status === 'Approved',
+            'bg-red-100 text-red-700': request?.status === 'Rejected',
+          }"
+        >
+          {{ request?.status }}
+        </span>
+      </div>
+      <div class="flex justify-between items-center mt-4 gap-4">
+        @if(request?.status === 'Pending') {
+          <button
+            mat-raised-button
+            class="bg-green-600! text-white! cursor-pointer"
+            (click)="handleRequest(request?.id, true)"
+          >
+            Approve
+          </button>
+          <button
+            mat-raised-button
+            class="bg-red-600! text-white! cursor-pointer"
+            (click)="handleRequest(request?.id, false)"
+          >
+            Reject
+          </button>
+          <!-- <button mat-icon-button disableRipple (click)="handleRequest(request?.id, true)" class="bg-white! text-teal-800! rounded-sm">
+          <mat-icon>check</mat-icon>
+        </button>
+        <button mat-icon-button disableRipple (click)="handleRequest(request?.id, false)" class="bg-white! text-red-600! rounded-sm">
+          <mat-icon>close</mat-icon>
+        </button> -->
+        }
+      </div>
+    </div>
+  </div>
 </mat-card>

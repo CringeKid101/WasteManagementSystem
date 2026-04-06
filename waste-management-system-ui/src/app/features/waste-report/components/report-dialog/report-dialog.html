@@ -1,63 +1,101 @@
-<h2 mat-dialog-title class="text-xl font-semibold">
-  Waste Report Details
-</h2>
+<h2 mat-dialog-title class="text-xl font-semibold text-gray-800">Waste Report Details</h2>
 
-
-<mat-dialog-content class="space-y-4">
-
-  <img
-    src="https://images.unsplash.com/photo-1604187351574-c75ca79f5807"
-    class="rounded-lg w-full h-64 object-cover">
-
-
-  <div class="space-y-2">
-
-    <p>
-      <span class="font-semibold">Location:</span>
-      MG Road Park
+<mat-dialog-content class="space-y-6 max-h-[70vh] overflow-y-auto">
+  <!-- 📌 Description -->
+  <div>
+    <p class="text-sm text-gray-500">Description</p>
+    <p class="text-gray-800 font-medium">
+      {{ report?.description }}
     </p>
-
-    <p>
-      <span class="font-semibold">Address:</span>
-      MG Road, Bangalore
-    </p>
-
-    <p>
-      <span class="font-semibold">Description:</span>
-      Large plastic waste pile near the park entrance
-    </p>
-
-    <p>
-      <span class="font-semibold">Reported By:</span>
-      user123
-    </p>
-
-    <p>
-      <span class="font-semibold">Date:</span>
-      March 16, 2026
-    </p>
-
   </div>
 
+  <div>
+    <p class="text-sm text-gray-500">Waste Type</p>
+    <p class="text-gray-800 font-medium">
+      {{ report?.wasteType }}
+    </p>
+  </div>
+
+  <!-- 📍 Location -->
+  <div>
+    <p class="text-sm text-gray-500">Location</p>
+    <p class="text-gray-700">
+      {{ report?.address }}
+    </p>
+
+    <!-- Coordinates -->
+    <p class="text-xs text-gray-400 mt-1">
+      Lat: {{ report?.latitude }} | Lng: {{ report?.longitude }}
+    </p>
+
+    <!-- Open in Maps -->
+    <a
+      class="text-blue-600 text-sm hover:underline"
+      target="_blank"
+      [href]="'https://www.google.com/maps?q=' + report?.latitude + ',' + report?.longitude"
+    >
+      Open in Maps
+    </a>
+  </div>
+
+  <!-- 🖼️ Images -->
+  <div>
+    <p class="text-sm text-gray-500 mb-2">Images</p>
+
+    @if (report?.images?.length) {
+      <div class="grid grid-cols-3 gap-3">
+        @for (img of report?.images; track img.imageUrl) {
+          <img
+            [src]="img.imageUrl"
+            class="w-full h-24 object-cover rounded-lg cursor-pointer hover:scale-105 transition"
+          />
+        }
+      </div>
+    } @else {
+      <p class="text-gray-400 text-sm">No images available</p>
+    }
+    <!-- <div *ngIf="report?.images?.length; else noImages"
+         class="grid grid-cols-3 gap-3">
+
+      <img
+        *ngFor="let img of report.images"
+        [src]="img.imageUrl"
+        class="w-full h-24 object-cover rounded-lg cursor-pointer hover:scale-105 transition"
+      />
+
+    </div>
+
+    <ng-template #noImages>
+      <p class="text-gray-400 text-sm">No images available</p>
+    </ng-template> -->
+  </div>
+
+  <!-- 📊 Status -->
+  <div>
+    <p class="text-sm text-gray-500">Status</p>
+
+    <span
+      class="px-3 py-1 text-xs font-semibold rounded-full"
+      [ngClass]="{
+        'bg-yellow-100 text-yellow-700': report?.status === wasteReportStatus.Pending,
+        'bg-green-100 text-green-700': report?.status === wasteReportStatus.Approved,
+        'bg-red-100 text-red-700': report?.status === wasteReportStatus.Rejected,
+      }"
+    >
+      {{ report?.status }}
+    </span>
+  </div>
 </mat-dialog-content>
 
-
-<mat-dialog-actions class="flex justify-between w-full">
-
-  <button mat-stroked-button mat-dialog-close>
-    Close
-  </button>
-
-  <div class="space-x-2">
-
-    <button mat-raised-button color="primary">
-      Approve
-    </button>
-
-    <button mat-raised-button color="warn">
+<!-- 🔘 Actions -->
+<mat-dialog-actions class="p-4 border-t">
+  <div class="flex justify-between w-full">
+    <button mat-raised-button mat-dialog-close (click)="handleReport(wasteReportStatus.Rejected)" class="bg-red-800! text-white! cursor-pointer">
       Reject
     </button>
 
+    <button mat-raised-button type="submit" (click)="handleReport(wasteReportStatus.Approved)" class="bg-teal-800! text-white! cursor-pointer">
+      Approve
+    </button>
   </div>
-
 </mat-dialog-actions>

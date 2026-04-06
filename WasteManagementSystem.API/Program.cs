@@ -17,6 +17,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     )
 );
 builder.Services.AddScoped<IEmailService, SmtpEmailService>();
+builder.Services.AddScoped<IImageService, ImageService>();
 builder
     .Services.AddIdentity<User, IdentityRole<Guid>>()
     .AddEntityFrameworkStores<AppDbContext>()
@@ -48,7 +49,7 @@ builder
             {
                 context.Token = context.Request.Cookies["access_token"];
                 return Task.CompletedTask;
-            }
+            },
         };
     });
 
@@ -61,7 +62,8 @@ builder.Services.AddCors(options =>
             policy
                 .WithOrigins(["http://localhost:4200", "https://localhost:4200"])
                 .AllowAnyHeader()
-                .AllowAnyMethod();
+                .AllowAnyMethod()
+                .AllowCredentials();
         }
     );
 });
@@ -97,10 +99,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAngular");
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors("AllowAngular");
 app.MapControllers();
 
 app.Run();
