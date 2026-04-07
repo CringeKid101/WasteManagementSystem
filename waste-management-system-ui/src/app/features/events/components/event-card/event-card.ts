@@ -53,11 +53,6 @@ export class EventCard implements OnInit {
         this.notificationService.error('Failed to update event.');
       },
     });
-    // if (this.event) {
-    //   this.eventService.joinEvent(this.event.eventId).subscribe(() => {
-    //     this.joinedEvent.update((value) => !value);
-    //   });
-    // }
   }
 
   openEventDetails() {

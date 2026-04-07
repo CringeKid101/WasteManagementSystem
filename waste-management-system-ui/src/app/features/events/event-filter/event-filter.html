@@ -1,0 +1,46 @@
+<form
+  [formGroup]="filterForm"
+  (ngSubmit)="emitFilters()"
+  class="flex flex-col md:flex-row gap-4 items-center"
+>
+  <!-- Search -->
+  <mat-form-field appearance="outline" class="w-full md:w-96">
+    <mat-label>Search reports</mat-label>
+
+    <button mat-icon-button matSuffix type="submit">
+      <mat-icon>search</mat-icon>
+    </button>
+
+    <input
+      matInput
+      (input)="onSearchChange($event.target.value)"
+      placeholder="Search by location or description"
+      formControlName="searchText"
+    />
+  </mat-form-field>
+
+  <!-- Status Filter -->
+  <mat-form-field appearance="outline" class="w-full md:w-48">
+    <mat-label>Status</mat-label>
+
+    <mat-select (selectionChange)="emitFilters()" formControlName="status">
+      <mat-option value="">All</mat-option>
+      @for (status of statusOptions; track status) {
+        <mat-option [value]="status">{{ status }}</mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
+
+  <!-- Clear Button -->
+  <div class="mb-6">
+    <!-- Apply Button -->
+    <button
+      type="button"
+      (click)="clearFilter()"
+      mat-flat-button
+      class="bg-teal-800! text-white! shadow-2xs"
+    >
+      Clear Filters
+    </button>
+  </div>
+</form>

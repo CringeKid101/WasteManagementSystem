@@ -12,6 +12,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Output, EventEmitter } from '@angular/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { DatePipe } from '@angular/common';
+import { Auth as AuthService } from '../../../../core/services/auth';
 
 @Component({
   selector: 'app-reports-table',
@@ -28,19 +29,29 @@ import { DatePipe } from '@angular/common';
   templateUrl: './reports-table.html',
   styleUrl: './reports-table.css',
 })
-export class ReportsTable {
+export class ReportsTable implements OnInit {
   @Input() wasteReports: WasteReport[] = [];
   selectedReports: WasteReport[] = [];
   @Output() selectionChange = new EventEmitter<any[]>();
   @Output() refreshReportData = new EventEmitter<void>();
-
-
-  columns: string[] = ['select', 'description', 'address','created', 'status', 'actions'];
+  user: any = null;
 
   constructor(
     private dialog: MatDialog,
     private reportService: WasteReportService,
+    private auth: AuthService,
   ) {}
+
+  ngOnInit() {
+    this.auth.user$.subscribe((user) => {
+      this.user = user;
+    });
+    if (!this.user.roles.includes('Admin')) {
+      this.columns = this.columns.filter((col) => col !== 'actions');
+    }
+  }
+
+  columns: string[] = ['select', 'description', 'address', 'created', 'status', 'actions'];
 
   openReportDialog(id: number) {
     const dialogRef = this.dialog.open(ReportDialog, {
@@ -73,15 +84,19 @@ export class ReportsTable {
 
   toggleAll(event: any) {
     if (event.checked) {
-      this.selectedReports = [...this.wasteReports.map((r) => r.eventId === null ? r : null)].filter(r => r !== null) as WasteReport[];
+      this.selectedReports = [
+        ...this.wasteReports.map((r) => (r.eventId === null ? r : null)),
+      ].filter((r) => r !== null) as WasteReport[];
     } else {
       this.selectedReports = [];
     }
 
-      this.selectionChange.emit(this.selectedReports);
+    this.selectionChange.emit(this.selectedReports);
   }
 
   isAllSelected(): boolean {
-    return this.selectedReports.length === this.wasteReports.filter((r) => r.eventId === null).length;
+    return (
+      this.selectedReports.length === this.wasteReports.filter((r) => r.eventId === null).length
+    );
   }
 }

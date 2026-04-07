@@ -87,9 +87,9 @@
             </p>
 
             <div class="text-sm text-gray-500 flex gap-4 mt-1">
-              <span class="flex items-center gap-1">
+              <span class="flex items-center gap-1 text-xs">
                 <mat-icon class="text-base">schedule</mat-icon>
-                {{ event.eventDate | date: 'short' }}
+                {{ event.eventDate | date: 'fullDate' }}
               </span>
 
               <!-- <span class="flex items-center gap-1">
@@ -128,14 +128,14 @@
             <p class="font-medium text-gray-800">{{ report.description }}</p>
 
             <div class="text-sm text-gray-500 mt-1 flex gap-4">
-              <span class="flex items-center gap-1">
+              <span class="flex items-center gap-1 text-xs">
                 <mat-icon class="text-base">person</mat-icon>
                 {{ report.reportedBy }}
               </span>
 
-              <span class="flex items-center gap-1">
+              <span class="flex items-center gap-1 text-xs">
                 <mat-icon class="text-base">schedule</mat-icon>
-                {{ report.createdAt | date: 'short' }}
+                {{ report.createdAt | date: 'fullDate' }}
               </span>
             </div>
           </div>

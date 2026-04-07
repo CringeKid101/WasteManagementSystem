@@ -25,10 +25,30 @@ namespace WasteManagementSystem.API.Controllers
 
         [Authorize]
         [HttpGet("organizer-requests")]
-        public async Task<IActionResult> GetOrganizerRequests()
+        public async Task<IActionResult> GetOrganizerRequests([FromQuery] RequestSearchFilterDto? filters)
         {
-            var requests = await _context
-                .OrganizerRequests.Where(o => o.ReviewedByAdminId == null)
+
+            var query = _context.OrganizerRequests.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(filters.SearchText))
+            {
+                query = query.Where(w =>
+                    w.User.FirstName.ToLower().Contains(filters.SearchText.ToLower())
+                    || w.User.LastName.ToLower().Contains(filters.SearchText.ToLower())
+                );
+            }
+
+            if (!String.IsNullOrEmpty(filters.RequestStatus))
+            {
+                System.Enum.TryParse<RequestStatus>(
+                    filters.RequestStatus,
+                    true,
+                    out RequestStatus status
+                );
+
+                query = query.Where(w => (int)w.Status == (int)status);
+            }
+            var requests = await query.Where(o => o.ReviewedByAdminId == null)
                 .Select(req => new OrganizerRequestDetailsDto
                 {
                     Id = req.Id,
@@ -72,7 +92,7 @@ namespace WasteManagementSystem.API.Controllers
                 return Unauthorized();
 
             var existing = await _context.OrganizerRequests.FirstOrDefaultAsync(x =>
-                x.UserId == Guid.Parse(userId) && x.Status == RequestStatus.Pending
+                x.UserId == Guid.Parse(userId) && (x.Status == RequestStatus.Pending || x.Status == RequestStatus.Approved)
             );
 
             if (existing != null)
@@ -134,7 +154,7 @@ namespace WasteManagementSystem.API.Controllers
         }
 
         [Authorize]
-        [HttpGet("organizer-request/eligibility")]
+        [HttpGet("organizer-requests/eligibility")]
         public async Task<IActionResult> CheckOrganizerEligibility()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -150,8 +170,8 @@ namespace WasteManagementSystem.API.Controllers
                 w.UserId == Guid.Parse(userId)
             );
 
-            int minEvents = 3;
-            int minReports = 3;
+            int minEvents = 1;
+            int minReports = 1;
 
             bool isEligible = eventsAttended >= minEvents || reportsSubmitted >= minReports;
 

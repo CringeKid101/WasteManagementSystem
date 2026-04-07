@@ -135,18 +135,16 @@ namespace WasteManagementSystem.API.Controllers
         [Authorize]
         [HttpGet("me")]
         public IActionResult Me()
-        {
-            var email = User.FindFirst(ClaimTypes.Email)?.Value;
-            var roles = User.FindFirst(ClaimTypes.Role)?.Value;
-            var givenName = User.FindFirst(ClaimTypes.GivenName)?.Value;
+        { 
 
+            var userData = new
+            {
+                email = User.Claims.Where(c => c.Type == ClaimTypes.Email).Select(c => c.Value),
+                roles = User.Claims.Where(c => c.Type == ClaimTypes.Role).Select(c => c.Value),
+                givenName = User.Claims.Where(c => c.Type == ClaimTypes.GivenName).Select(c => c.Value)
+            };
             return Ok(
-                new
-                {
-                    email,
-                    roles,
-                    givenName,
-                }
+               userData
             );
         }
 

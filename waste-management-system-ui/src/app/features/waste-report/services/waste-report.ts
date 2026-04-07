@@ -25,25 +25,8 @@ export class WasteReport {
   }
 
   public getReports(
-    filters: ReportSearchFilters = { searchText: '', reportStatus: '', wasteType: '' },
+    filters: ReportSearchFilters = { searchText: '', reportStatus: '', wasteType: '' }
   ): Observable<WasteReportModel[]> {
-    // let params: any = {};
-
-    // if (filters.searchText && filters.searchText.trim() !== '') {
-    //   params.search = filters.searchText;
-    // }
-
-    // if (
-    //   filters.reportstatus !== undefined &&
-    //   filters.reportstatus !== null &&
-    //   filters.reportstatus !== ''
-    // ) {
-    //   params.status = filters.reportstatus;
-    // }
-
-    // if (filters.wasteType !== undefined && filters.wasteType !== null && filters.wasteType !== '') {
-    //   params.wasteType = filters.wasteType;
-    // }
     return this.http.get<WasteReportModel[]>(`${this.baseUrl}/waste-reports`, {
       params: filters as any,
       withCredentials: true,

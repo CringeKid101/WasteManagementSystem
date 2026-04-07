@@ -7,6 +7,7 @@ using Org.BouncyCastle.Asn1;
 using QRCoder;
 using WasteManagementSystem.API.Data;
 using WasteManagementSystem.API.DTOs;
+using WasteManagementSystem.API.Enum;
 using WasteManagementSystem.API.Models;
 using WasteManagementSystem.API.Services;
 
@@ -27,11 +28,31 @@ namespace WasteManagementSystem.API.Controllers
 
         [Authorize]
         [HttpGet("get-events")]
-        public async Task<IActionResult> GetEvents()
+        public async Task<IActionResult> GetEvents([FromQuery] EventSearchFilterDto? filters)
         {
+            var query = _context.Events.AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(filters.SearchText))
+            {
+                query = query.Where(w =>
+                    w.Description.ToLower().Contains(filters.SearchText.ToLower())
+                    || w.Title.ToLower().Contains(filters.SearchText.ToLower())
+                );
+            }
+
+            if (!String.IsNullOrEmpty(filters.EventStatus))
+            {
+                System.Enum.TryParse<EventStatus>(
+                    filters.EventStatus,
+                    true,
+                    out EventStatus status
+                );
+
+                query = query.Where(w => (int)w.Status == (int)status);
+            }
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var events = await _context
-                .Events.Select(e => new
+            var events = await query
+                .Select(e => new
                 {
                     e.Id,
                     e.Title,
