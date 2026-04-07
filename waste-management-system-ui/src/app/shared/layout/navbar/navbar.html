@@ -6,7 +6,7 @@
   </h1>
 
   <div class="flex items-center gap-3">
-    @if (isEligible) {
+    @if (user.roles.includes('User') && !user.roles.includes('Organizer') && isEligible) {
       <button
         mat-raised-button
         color="primary"

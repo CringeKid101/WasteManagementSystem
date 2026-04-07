@@ -9,6 +9,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
 import { Events } from '../../../../core/models/events.model';
 import { Event as EventService } from '../../services/event';
+import { EventFilter } from '../../event-filter/event-filter';
+import { EventSearchFilters } from '../../../../core/models/event-search-filters.model';
 
 @Component({
   selector: 'app-events-page',
@@ -22,6 +24,7 @@ import { Event as EventService } from '../../services/event';
     MatButtonToggleModule,
     MatButtonToggleGroup,
     MatIconModule,
+    EventFilter,
   ],
   templateUrl: './events-page.html',
   styleUrl: './events-page.css',
@@ -40,10 +43,25 @@ export class EventsPage implements OnInit {
   loadEvents() {
     this.eventService.getEvents().subscribe((data) => {
       data.forEach((event: Events) => {
-        event.eventDate = event.eventDate + 'Z'; // Append 'Z' to indicate UTC time
+        event.eventDate = event.eventDate + 'Z';
         event.eventDateObject = new Date(event.eventDate);
       });
       this.events = data;
+    });
+  }
+
+  onFilterChange(filters: any) {
+    const searchFilters: EventSearchFilters = {
+      eventStatus: filters.status,
+      searchText: filters.searchText,
+    };
+
+    this.eventService.getEvents(searchFilters).subscribe((data) => {
+      data.forEach((event: Events) => {
+        event.eventDate = event.eventDate + 'Z';
+        event.eventDateObject = new Date(event.eventDate);
+        this.events = data;
+      });
     });
   }
 }

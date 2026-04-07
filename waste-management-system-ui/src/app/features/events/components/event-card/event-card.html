@@ -1,8 +1,8 @@
-<mat-card class="p-4 hover:shadow-lg transition bg-white! cursor-pointer">
+<mat-card class="p-4 hover:shadow-lg transition bg-white!">
 
      <div class="flex justify-between">
           <h3 class="font-semibold text-lg">
-               {{event?.title}}
+               {{event.title}}
           </h3>
 
           <button mat-icon-button (click)="openEventDetails()" matTooltip="Click for Event Details">
@@ -11,12 +11,12 @@
           </button>
      </div>
 
-     <p class="text-sm text-gray-500 mt-1">
-          📍 {{event?.address}}
+     <p class="text-gray-500 text-xs mt-1">
+          📍 {{event.address}}
      </p>
 
-     <p class="text-sm text-gray-500">
-          🕒 {{event?.eventDateObject | date:'fullDate'}}, {{event?.eventDateObject | date:'shortTime'}}
+     <p class="text-gray-500 text-xs">
+          🕒 {{event.eventDateObject | date:'fullDate'}}, {{event.eventDateObject | date:'shortTime'}}
      </p>
 
      <!-- <p class="text-sm mt-3 text-gray-600">
@@ -38,7 +38,7 @@
           <button
   (click)="handleEvent()"
   [disabled]="event.loading"
-  class="px-4 py-2 rounded-lg text-white"
+  class="px-4 py-2 rounded-lg text-white cursor-pointer"
   [ngClass]="event.isJoined ? 'bg-red-600' : 'bg-teal-800'"
 >
   {{ event.isJoined ? 'Leave' : 'Join' }}

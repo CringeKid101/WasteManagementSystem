@@ -1,4 +1,4 @@
-<form [formGroup]="searchForm" (ngSubmit)="submitSearch()" class="flex flex-col md:flex-row gap-4 items-center">
+<form [formGroup]="filterForm" (ngSubmit)="emitFilters()" class="flex flex-col md:flex-row gap-4 items-center">
   <!-- Search -->
   <mat-form-field appearance="outline" class="w-full md:w-96">
     <mat-label>Search requests</mat-label>
@@ -7,18 +7,16 @@
       <mat-icon>search</mat-icon>
     </button>
 
-    <input matInput placeholder="Search by requester name" formControlName="search" />
+    <input matInput placeholder="Search by requester name" formControlName="searchText" (input)="onSearchChange($event.target.value)" />
 
-    <button mat-icon-button matSuffix (click)="clearSearch()" type="button">
-      <mat-icon>close</mat-icon>
-    </button>
+    
   </mat-form-field>
 
   <!-- Status Filter -->
   <mat-form-field appearance="outline" class="w-full md:w-48">
     <mat-label>Status</mat-label>
 
-    <mat-select formControlName="status">
+    <mat-select (selectionChange)="emitFilters()" formControlName="status">
       <mat-option value="">All</mat-option>
       @for(status of statusOptions; track status){
         <mat-option [value]="status">{{ status }}</mat-option>
@@ -28,7 +26,7 @@
 
   <div class="mb-6">
     <!-- Apply Button -->
-    <button mat-flat-button (click)="clearFilters()" class="bg-teal-800! text-white! shadow-2xs" type="button">
+    <button mat-flat-button (click)="clearFilter()" class="bg-teal-800! text-white! shadow-2xs" type="button">
       Clear Filters
     </button>
   </div>

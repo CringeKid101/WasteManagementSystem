@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, Observable, throwError } from 'rxjs';
 import { RequestOrganizerRole } from '../../../core/models/request-organizer-role.model';
+import { RequestSearchFilter } from '../../../core/models/request-search-filter.model';
+import { OrganizerRequestDetails } from '../../../core/models/organizer-request-details.model';
 
 @Injectable({
   providedIn: 'root',
@@ -14,12 +16,11 @@ export class OrganizerRequest {
     this.http = http;
   }
 
-  public getAll() {
-    return this.http.get(`${this.baseUrl}/organizer-requests`, { withCredentials: true }).pipe(
-      catchError((error) => {
-        return throwError(() => new Error('Failed to fetch organizer requests.'));
-      }),
-    );
+  public getAll(filters: RequestSearchFilter = { searchText: '', requestStatus: '' }): Observable<OrganizerRequestDetails[]> {
+    return this.http.get<OrganizerRequestDetails[]>(`${this.baseUrl}/organizer-requests`, {
+      params: filters as any,
+      withCredentials: true,
+    });
   }
 
   public requestOrganizerRole(data: RequestOrganizerRole) {
@@ -45,11 +46,15 @@ export class OrganizerRequest {
     );
   }
 
-  public getEligibility(): Observable<{ eligible: boolean }> {
-    return this.http.get<{ eligible: boolean }>(`${this.baseUrl}/organizer-requests/eligibility`, { withCredentials: true }).pipe(
-      catchError((error) => {
-        return throwError(() => new Error('Failed to fetch organizer request eligibility.'));
-      }),
-    );
+  public getEligibility(): Observable<{ isEligible: boolean }> {
+    return this.http
+      .get<{
+        isEligible: boolean;
+      }>(`${this.baseUrl}/organizer-requests/eligibility`, { withCredentials: true })
+      .pipe(
+        catchError((error) => {
+          return throwError(() => new Error('Failed to fetch organizer request eligibility.'));
+        }),
+      );
   }
 }

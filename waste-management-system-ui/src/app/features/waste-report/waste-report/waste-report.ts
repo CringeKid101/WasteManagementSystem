@@ -227,7 +227,7 @@ export class WasteReport implements OnInit, AfterViewInit {
     this.wasteReportService.submitReport(formData).subscribe({
       next: (res) => {
         console.log('Report submitted successfully', res);
-        this.dialogRef.close();
+        this.dialogRef.close(true);
         this.notificationService.success('Report submitted successfully.');
       },
       error: (err) => {

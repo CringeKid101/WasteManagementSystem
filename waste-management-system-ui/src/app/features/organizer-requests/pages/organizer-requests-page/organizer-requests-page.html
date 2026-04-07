@@ -4,10 +4,10 @@
           Accept or Reject Pending Organizer Requests
      </h1>
 
-     <app-organizer-request-filter  ></app-organizer-request-filter>
+     <app-organizer-request-filter (filtersChanged)="onFilterChange($event)"></app-organizer-request-filter>
      <!-- Events Grid -->
      <div [animate.leave]="['card-vanish']" class="grid md:grid-rows-1 lg:grid-rows-1 gap-6">
-          @for(request of organizerRequests; track request.Id){
+          @for(request of organizerRequests; track request.id){
                <app-organizer-request-card [request]="request" (requestHandled)="refreshOrganizerRequests()"></app-organizer-request-card>
           }
      </div>

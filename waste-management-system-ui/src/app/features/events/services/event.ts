@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { CreateEvent } from '../../../core/models/create-event.model';
 import { Observable } from 'rxjs';
 import { Events } from '../../../core/models/events.model';
+import { EventSearchFilters } from '../../../core/models/event-search-filters.model';
 
 @Injectable({
   providedIn: 'root',
@@ -17,8 +18,9 @@ export class Event {
     });
   }
 
-  public getEvents(): Observable<Events[]> {
+  public getEvents( filters: EventSearchFilters = { searchText: '', eventStatus: ''}): Observable<Events[]> {
     return this.http.get<Events[]>(`${this.baseUrl}/get-events`, {
+      params: filters as any,
       withCredentials: true,
     });
   }

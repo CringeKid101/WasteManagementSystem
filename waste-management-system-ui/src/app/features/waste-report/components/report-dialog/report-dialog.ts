@@ -44,7 +44,7 @@ export class ReportDialog {
       next: (res) => {
         console.log(`Report ${status.toLowerCase()}:`, res);
         this.dialogRef.close(true); // pass true to indicate update
-        this.notificationService.success(`Report ${status.toLowerCase()}ed successfully.`);
+        this.notificationService.success(`Report ${status.toLowerCase()} successfully.`);
       },
       error: (err) => {
         console.error(err);
