@@ -19,7 +19,7 @@
               (click)="$event.stopPropagation()"
               (change)="toggleRow(row)"
               [checked]="isSelected(row)"
-              [disabled]="row.eventId !== null || row.status === 'Pending'"
+              [disabled]="row.eventId !== null || row.status === 'Pending' || row.status === 'Rejected'"
               [matTooltip]="row.eventId ? 'Report is already part of an event' : ''"
             >
             </mat-checkbox>

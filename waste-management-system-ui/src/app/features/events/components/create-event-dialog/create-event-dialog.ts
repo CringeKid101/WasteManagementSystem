@@ -142,14 +142,22 @@ export class CreateEventDialog implements OnInit {
       return;
     }
 
-    const dateTime = `${this.eventForm.value.date}T${this.eventForm.value.time}`;
+    const dateObj = new Date(this.eventForm.value.date);
+    const time = this.eventForm.value.time;
 
+    const [hours, minutes] = time.split(':');
+
+    dateObj.setHours(+hours);
+    dateObj.setMinutes(+minutes);
+    dateObj.setSeconds(0);
+    console.log(dateObj);
+    console.log(dateObj.toISOString());
     const eventData: CreateEvent = {
       title: this.eventForm.value.title,
       description: this.eventForm.value.description,
-      date: new Date(dateTime),
+      eventDate: dateObj.toISOString(),
       address: this.eventForm.value.address,
-      maxVolunteers: this.eventForm.value.maxVolunteers,
+      maxParticipants: this.eventForm.value.maxVolunteers,
       latitude: this.selectedLat,
       longitude: this.selectedLng,
       wasteReportIds: this.reports.map((r) => r.id.toString()),
