@@ -1,9 +1,9 @@
 export interface CreateEvent {
   title: string;
   description: string;
-  date: Date;
+  eventDate: string;
   address: string;
-  maxVolunteers: number;
+  maxParticipants: number;
   latitude: number;
   longitude: number;
   wasteReportIds: string[];
